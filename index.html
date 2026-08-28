@@ -1,0 +1,841 @@
+<title>ENACAL 2026</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Montserrat:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+
+<style>
+/* ─── TOKENS ────────────────────────────────────────── */
+:root {
+  --bg:          #ffffff;
+  --surface:     #ffffff;
+  --navy:        #244d6e;
+  --navy-dark:   #1a3850;
+  --navy-light:  #e8eff5;
+  --verde:       #5a694f;
+  --verde-mid:   #6d7e60;
+  --verde-dim:   #4a5840;
+  --verde-light: #8aaa78;
+  --text:        #141e28;
+  --text-sec:    #445565;
+  --muted:       #7a8a95;
+  --border:      #dde0dc;
+  --border-soft: #eceeed;
+  --hero-bg:     #121c28;
+
+  --font-display: 'Bebas Neue', 'Arial Narrow', Arial, sans-serif;
+  --font-body:    'Montserrat', system-ui, sans-serif;
+  --r: 5px;
+  --max: 1100px;
+  --sp: clamp(4.5rem, 9vw, 7.5rem) clamp(1.5rem, 5vw, 3rem);
+}
+
+
+/* ─── RESET ─────────────────────────────────────────── */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:var(--font-body);font-size:1rem;line-height:1.65;-webkit-font-smoothing:antialiased}
+img{max-width:100%;display:block}
+a{color:inherit;text-decoration:none}
+button{cursor:pointer;font-family:inherit;border:none;background:none}
+
+/* ─── UTILS ──────────────────────────────────────────── */
+.container{max-width:var(--max);margin:0 auto;padding-inline:clamp(1.25rem,4vw,2.5rem)}
+.section{padding:var(--sp)}
+.eyebrow{font-size:.68rem;font-weight:700;letter-spacing:.22em;text-transform:uppercase;color:var(--navy);margin-bottom:.75rem;display:block}
+.divider{width:44px;height:3px;background:var(--navy);margin-bottom:2rem}
+h2{font-family:var(--font-display);font-size:clamp(2.4rem,5vw,3.8rem);line-height:1.05;letter-spacing:.01em;text-wrap:balance;margin-bottom:1.25rem;color:var(--navy)}
+h3{font-family:var(--font-display);font-size:clamp(1.2rem,2.5vw,1.6rem);letter-spacing:.02em;line-height:1.1;margin-bottom:.6rem;color:var(--navy)}
+/* alternância azul / verde nos h2 de seção */
+.about h2         { color: var(--navy) }
+.pillars h2       { color: var(--verde) }
+.schedule h2      { color: var(--navy) }
+.venue h2         { color: var(--verde) }
+.editions h2      { color: var(--navy) }
+.tickets h2       { color: var(--verde) }
+.sponsors h2      { color: var(--navy) }
+/* eyebrow acompanha o h2 */
+.pillars .eyebrow, .venue .eyebrow, .tickets .eyebrow { color: var(--verde-mid) }
+.about .eyebrow, .schedule .eyebrow, .editions .eyebrow, .sponsors .eyebrow { color: var(--navy) }
+/* divider também */
+.pillars .divider, .venue .divider, .tickets .divider { background: var(--verde) }
+.about .divider, .schedule .divider, .editions .divider, .sponsors .divider { background: var(--navy) }
+p{max-width:62ch;color:var(--text-sec)}
+
+.btn{display:inline-flex;align-items:center;gap:.5rem;padding:.85rem 2rem;border-radius:var(--r);font-family:var(--font-body);font-size:.8rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;transition:all .2s;border:2px solid transparent;cursor:pointer;text-decoration:none}
+.btn-verde{background:var(--verde);color:#fff}
+.btn-verde:hover{background:var(--verde-dim)}
+.btn-navy{background:var(--navy);color:#fff}
+.btn-navy:hover{background:var(--navy-dark)}
+.btn-outline-navy{background:transparent;color:var(--navy);border-color:var(--navy)}
+.btn-outline-navy:hover{background:var(--navy);color:#fff}
+.btn-outline-white{background:transparent;color:#fff;border-color:rgba(255,255,255,.6)}
+.btn-outline-white:hover{background:rgba(255,255,255,.1)}
+
+/* ─── LOGO ───────────────────────────────────────────── */
+.logo{display:inline-flex;align-items:center;gap:.6rem;font-family:var(--font-display);font-size:1.9rem;letter-spacing:.06em;line-height:1;text-decoration:none}
+.logo-icon{display:flex;align-items:center}
+.logo-text .n{color:#fff}
+.logo-text .a{color:var(--verde-light)}
+.logo-text .c{color:#fff}
+.logo--dark .n,.logo--dark .c{color:var(--navy)}
+.logo--dark .a{color:var(--verde)}
+
+/* ─── HERO ───────────────────────────────────────────── */
+.hero{position:relative;min-height:100svh;background:var(--hero-bg);overflow:hidden;display:flex;align-items:center}
+#hero-canvas{position:absolute;inset:0;width:100%;height:100%;opacity:.5}
+.hero-body{position:relative;z-index:2;max-width:var(--max);margin:0 auto;padding:clamp(5rem,10vw,9rem) clamp(1.5rem,5vw,3rem) clamp(3rem,6vw,5rem);width:100%}
+
+.hero-tag{display:inline-block;background:rgba(90,105,79,.2);border:1px solid rgba(90,105,79,.4);color:#8aaa78;font-size:.65rem;font-weight:700;letter-spacing:.22em;text-transform:uppercase;padding:.4rem .9rem;border-radius:2px;margin-bottom:2rem}
+
+.hero h1{font-family:var(--font-display);font-size:clamp(3.8rem,9.5vw,8.5rem);line-height:.95;letter-spacing:.01em;color:#fff;text-wrap:balance;margin-bottom:1.25rem}
+.hero h1 em{font-style:normal;color:#7a9a6e}
+
+.hero-sub{font-size:clamp(.9rem,1.4vw,1rem);color:rgba(221,228,224,.65);max-width:48ch;line-height:1.7;margin-bottom:2.5rem}
+
+.hero-ctas{display:flex;gap:1rem;flex-wrap:wrap}
+
+.hero-meta{display:flex;gap:2.5rem;flex-wrap:wrap;margin-top:4.5rem;padding-top:2rem;border-top:1px solid rgba(255,255,255,.08)}
+.hero-meta-item{display:flex;align-items:center;gap:.75rem}
+.hero-meta-icon{width:38px;height:38px;border-radius:50%;background:rgba(90,105,79,.2);border:1px solid rgba(90,105,79,.3);display:flex;align-items:center;justify-content:center;font-size:1.05rem;flex-shrink:0}
+.hero-meta-lbl{font-size:.72rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:rgba(221,228,224,.45);line-height:1.2}
+.hero-meta-val{font-size:.88rem;color:rgba(221,228,224,.85);font-weight:500}
+
+.scroll-cue{position:absolute;bottom:2rem;left:50%;transform:translateX(-50%);z-index:3;display:flex;flex-direction:column;align-items:center;gap:.5rem;font-size:.58rem;letter-spacing:.18em;text-transform:uppercase;color:rgba(255,255,255,.3);animation:scrl 2.5s ease-in-out infinite}
+.scroll-cue::after{content:'';width:1px;height:36px;background:linear-gradient(to bottom,rgba(255,255,255,.25),transparent)}
+@keyframes scrl{0%,100%{transform:translateX(-50%) translateY(0)}50%{transform:translateX(-50%) translateY(7px)}}
+
+/* ─── STATS ──────────────────────────────────────────── */
+.stats{background:var(--bg);border-top:3px solid var(--navy);border-bottom:1px solid var(--border)}
+.stats-grid{display:grid;grid-template-columns:repeat(4,1fr)}
+@media(max-width:650px){.stats-grid{grid-template-columns:repeat(2,1fr)}}
+.stat{text-align:center;padding:clamp(1.5rem,3vw,2.25rem) 1rem;background:transparent}
+.stat+.stat{border-left:1px solid var(--border)}
+@media(max-width:650px){.stat:nth-child(2n+1){border-left:none}.stat:nth-child(n+3){border-top:1px solid var(--border)}}
+.stat-num{font-family:var(--font-display);font-size:clamp(2.6rem,5vw,4.2rem);color:var(--navy);line-height:1;letter-spacing:.02em}
+.stat-num b{color:var(--verde-mid)}
+.stat-lbl{font-size:.65rem;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);margin-top:.3rem}
+
+/* ─── ABOUT ──────────────────────────────────────────── */
+.about{background:var(--bg)}
+.about-layout{display:grid;grid-template-columns:1fr 1fr;gap:clamp(3rem,6vw,5rem);align-items:start}
+@media(max-width:768px){.about-layout{grid-template-columns:1fr}}
+.about p{margin-bottom:1rem}
+
+.accordion{margin-top:1.5rem;border-top:1px solid var(--border)}
+.accordion-item{border-bottom:1px solid var(--border)}
+.acc-btn{width:100%;text-align:left;display:flex;justify-content:space-between;align-items:center;padding:1rem 0;background:none;font-size:.9rem;font-weight:600;color:var(--text);cursor:pointer;gap:1rem}
+.acc-btn:hover{color:var(--navy)}
+.acc-btn[aria-expanded="true"]{color:var(--navy)}
+.acc-icon{flex-shrink:0;width:22px;height:22px;border:2px solid var(--border);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.95rem;line-height:1;color:var(--muted);transition:transform .25s,border-color .25s}
+.acc-btn[aria-expanded="true"] .acc-icon{transform:rotate(45deg);border-color:var(--navy);color:var(--navy)}
+.acc-body{overflow:hidden;max-height:0;transition:max-height .3s ease}
+.acc-body p{padding-bottom:1rem;font-size:.88rem;color:var(--text-sec);max-width:none}
+
+/* ─── PILLARS ────────────────────────────────────────── */
+.pillars{background:var(--bg)}
+.pillars-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1.25rem;margin-top:2.5rem}
+@media(max-width:900px){.pillars-grid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:500px){.pillars-grid{grid-template-columns:1fr}}
+.pillar-card{background:var(--bg);border:1px solid var(--border);border-top:3px solid var(--verde);border-radius:var(--r);padding:2rem 1.5rem;display:flex;flex-direction:column;min-height:300px}
+.pillar-num{font-family:var(--font-display);font-size:3.5rem;line-height:1;color:var(--border);margin-bottom:1rem;letter-spacing:.02em}
+.pillar-card h3{color:var(--navy);font-size:1rem;letter-spacing:.03em;margin-bottom:.5rem}
+.pillar-card p{color:var(--text-sec);font-size:.82rem;max-width:none;flex:1;line-height:1.6}
+.pillar-icon{width:36px;height:36px;border-radius:50%;border:1.5px solid var(--verde);color:var(--verde);display:flex;align-items:center;justify-content:center;font-size:1rem;margin-bottom:1.25rem}
+.pillar-footer{margin-top:1.5rem;border-top:1px solid var(--border);padding-top:.75rem;font-size:.65rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+
+/* ─── SCHEDULE ───────────────────────────────────────── */
+.schedule{background:var(--surface)}
+.schedule h2{color:var(--navy)}
+.schedule .divider+p{color:var(--text-sec)}
+.schedule .divider{background:var(--navy)}
+.schedule .eyebrow{color:var(--verde-mid)}
+.sched-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2rem;margin-top:3rem}
+@media(max-width:768px){.sched-grid{grid-template-columns:1fr}}
+.sched-day{border-top:3px solid var(--navy);padding-top:1.5rem;background:var(--bg);border-radius:var(--r);padding:1.5rem;border:1px solid var(--border);border-top:3px solid var(--navy)}
+.sched-dayname{font-family:var(--font-display);font-size:1.5rem;color:var(--navy);letter-spacing:.03em;margin-bottom:.2rem}
+.sched-date{font-size:.65rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);margin-bottom:1.75rem}
+.sched-item{margin-bottom:1.25rem}
+.sched-time{font-size:.65rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--verde-mid);margin-bottom:.2rem}
+.sched-title{font-size:.88rem;font-weight:600;color:var(--text);line-height:1.35}
+.sched-note{font-size:.76rem;color:var(--muted);margin-top:.15rem}
+.sched-sep{height:1px;background:var(--border-soft);margin:.75rem 0}
+
+/* ─── VENUE ──────────────────────────────────────────── */
+.venue{background:var(--bg)}
+.venue-layout{display:grid;grid-template-columns:1fr 1fr;gap:clamp(3rem,6vw,5rem);align-items:center}
+@media(max-width:768px){.venue-layout{grid-template-columns:1fr}}
+.venue-visual{aspect-ratio:4/3;background:var(--navy-dark);border-radius:var(--r);overflow:hidden;position:relative;display:flex;align-items:center;justify-content:center}
+.venue-visual canvas{position:absolute;inset:0;width:100%;height:100%}
+.venue-label{position:relative;z-index:1;font-family:var(--font-display);font-size:1.4rem;color:#fff;letter-spacing:.06em;text-align:center;padding:1rem}
+.venue-label span{display:block;font-family:var(--font-body);font-size:.75rem;font-weight:500;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.5);margin-top:.25rem}
+.venue-features{display:flex;flex-direction:column;gap:.75rem;margin-top:2rem}
+.venue-feat{display:flex;gap:1rem;align-items:flex-start;padding:.9rem 1.1rem;background:var(--surface);border-radius:var(--r);border-left:3px solid var(--verde)}
+.venue-feat-icon{font-size:1.15rem;flex-shrink:0;margin-top:.1rem}
+.venue-feat-title{font-size:.82rem;font-weight:700;color:var(--navy);margin-bottom:.1rem}
+.venue-feat-desc{font-size:.78rem;color:var(--muted);line-height:1.5}
+
+/* ─── CAROUSEL ───────────────────────────────────────── */
+.editions{background:var(--surface)}
+.carousel-wrap{position:relative;overflow:hidden;border-radius:var(--r);margin-top:2.5rem}
+.carousel-track{display:flex;transition:transform .45s cubic-bezier(.25,.46,.45,.94);will-change:transform}
+.carousel-slide{min-width:100%;position:relative;aspect-ratio:16/7;overflow:hidden}
+.carousel-slide canvas{position:absolute;inset:0;width:100%;height:100%}
+.carousel-cap{position:absolute;bottom:0;left:0;right:0;padding:2rem 2.5rem;background:linear-gradient(to top,rgba(18,28,40,.9) 0%,transparent 100%);z-index:1}
+.carousel-cap-year{font-family:var(--font-display);font-size:2.2rem;color:#fff;letter-spacing:.04em;line-height:1;margin-bottom:.2rem}
+.carousel-cap-info{font-size:.78rem;color:rgba(255,255,255,.6)}
+.car-nav{position:absolute;top:50%;transform:translateY(-50%);z-index:2;background:rgba(36,77,110,.75);color:#fff;width:42px;height:42px;border-radius:50%;font-size:1rem;display:flex;align-items:center;justify-content:center;transition:background .2s}
+.car-nav:hover{background:var(--verde)}
+.car-nav.prev{left:1rem}
+.car-nav.next{right:1rem}
+.car-dots{display:flex;justify-content:center;gap:.5rem;margin-top:1.25rem}
+.car-dot{width:7px;height:7px;border-radius:50%;background:var(--border);border:none;cursor:pointer;transition:background .2s,transform .2s}
+.car-dot.active{background:var(--verde);transform:scale(1.4)}
+
+/* ─── TICKETS ────────────────────────────────────────── */
+.tickets{background:var(--bg)}
+.tickets-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;margin-top:2.5rem}
+@media(max-width:600px){.tickets-grid{grid-template-columns:1fr}}
+.ticket{border-radius:var(--r);padding:2rem 2rem 2.5rem;display:flex;flex-direction:column;border:1px solid var(--border);background:var(--surface)}
+.ticket.featured{background:var(--navy-light);border-color:var(--navy);border-width:2px}
+.ticket-badge{display:inline-block;font-size:.6rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase;padding:.3rem .7rem;border-radius:2px;margin-bottom:1.25rem;background:var(--navy-light);color:var(--navy)}
+.ticket.featured .ticket-badge{background:rgba(36,77,110,.12);color:var(--navy)}
+.ticket-name{font-family:var(--font-display);font-size:1.4rem;color:var(--navy);margin-bottom:.25rem;letter-spacing:.03em}
+.ticket.featured .ticket-name{color:var(--navy)}
+.ticket-price{font-family:var(--font-display);font-size:3.4rem;line-height:1;color:var(--navy);letter-spacing:.02em;margin-bottom:.2rem}
+.ticket.featured .ticket-price{color:var(--navy)}
+.ticket-price-note{font-size:.72rem;color:var(--muted);margin-bottom:1.5rem}
+.ticket.featured .ticket-price-note{color:var(--muted)}
+.ticket-details{flex:1}
+.ticket-detail{display:flex;align-items:center;gap:.5rem;font-size:.8rem;color:var(--text-sec);margin-bottom:.45rem}
+.ticket.featured .ticket-detail{color:var(--text-sec)}
+.ticket-detail::before{content:'';width:5px;height:5px;background:var(--navy);border-radius:50%;flex-shrink:0}
+.ticket.featured .ticket-detail::before{background:var(--navy)}
+.ticket-period{font-size:.68rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin:1.25rem 0 .75rem}
+.ticket.featured .ticket-period{color:var(--muted)}
+.ticket-cta{width:100%;margin-top:1.5rem;padding:.9rem;border-radius:var(--r);font-family:var(--font-body);font-size:.76rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;text-align:center;cursor:pointer;transition:all .2s;display:block;text-decoration:none;border:2px solid transparent}
+.ticket.featured .ticket-cta{background:var(--navy);color:#fff;border-color:var(--navy)}
+.ticket.featured .ticket-cta:hover{background:var(--navy-dark)}
+.ticket:not(.featured) .ticket-cta{background:transparent;color:var(--navy);border-color:var(--navy)}
+.ticket:not(.featured) .ticket-cta:hover{background:var(--navy);color:#fff}
+.ticket-restrict{display:flex;align-items:center;gap:.4rem;font-size:.7rem;color:var(--muted);margin-top:.75rem}
+.ticket.featured .ticket-restrict{color:var(--muted)}
+
+/* ─── SPONSORS ───────────────────────────────────────── */
+.sponsors{background:var(--surface)}
+.sponsors-note{font-size:.88rem;color:var(--muted);margin-bottom:3rem}
+.sp-group{margin-bottom:2.5rem}
+.sp-label{font-size:.62rem;font-weight:700;letter-spacing:.22em;text-transform:uppercase;color:var(--muted);margin-bottom:1.25rem;display:block}
+.sp-logos{display:flex;align-items:center;gap:1.5rem;flex-wrap:wrap}
+.sp-slot{height:52px;border-radius:var(--r);background:var(--border-soft);display:flex;align-items:center;justify-content:center;padding:0 1.75rem;font-size:.65rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+.sp-slot.master{height:64px;min-width:150px}
+
+/* ─── CONTACT ────────────────────────────────────────── */
+.contact-band{background:var(--navy);padding:clamp(3rem,6vw,5rem) clamp(1.5rem,5vw,3rem);text-align:center}
+.contact-band h2{color:#fff;margin-bottom:.75rem}
+.contact-band p{color:rgba(255,255,255,.72);margin:0 auto 2.25rem}
+
+/* ─── FOOTER ─────────────────────────────────────────── */
+footer{background:#0e1822;padding:2rem clamp(1.5rem,5vw,3rem)}
+.footer-inner{max-width:var(--max);margin:0 auto;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem}
+.footer-logo{font-family:var(--font-display);font-size:1.5rem;letter-spacing:.06em;color:rgba(255,255,255,.5)}
+.footer-logo b{color:#7a9a6e}
+.footer-meta{font-size:.72rem;line-height:1.7;color:rgba(255,255,255,.35)}
+
+@media(prefers-reduced-motion:reduce){*{animation-duration:.01ms!important;transition-duration:.01ms!important}}
+</style>
+
+<!-- ════════ BODY ════════ -->
+
+<!-- HERO -->
+<section class="hero" aria-label="Abertura">
+  <canvas id="hero-canvas" aria-hidden="true"></canvas>
+  <div class="hero-body">
+    <div class="logo" style="margin-bottom:3rem">
+      <svg width="36" height="32" viewBox="0 0 36 32" fill="none" aria-hidden="true">
+        <path d="M18 1 L2 31 H9 L18 13 L27 31 H34 Z" fill="#5a694f"/>
+        <path d="M18 18 L13.5 27 H22.5 Z" fill="#121c28"/>
+        <line x1="18" y1="31" x2="18" y2="32" stroke="#5a694f" stroke-width="0"/>
+      </svg>
+      <span style="font-family:var(--font-display);font-size:2rem;letter-spacing:.06em;line-height:1">
+        <span style="color:#fff">EN</span><span style="color:#7a9a6e">A</span><span style="color:#fff">CAL</span>
+      </span>
+    </div>
+
+    <div class="hero-tag">Encontro Nacional dos Produtores de Calcário Agrícola</div>
+
+    <h1>TRÊS DIAS COM<br><em>QUEM DECIDE O SETOR.</em></h1>
+    <p class="hero-sub">200 líderes de mineração, agro e indústria em um único ambiente. Conteúdo que vai direto ao que move resultado: finanças, vendas, tecnologia e liderança. Novembro de 2026, Indaiatuba (SP).</p>
+
+    <div class="hero-ctas">
+      <a href="https://www.sympla.com.br/evento/encontro-nacional-dos-produtores-de-calcario-agricola-enacal-2026/2847998" target="_blank" rel="noopener" class="btn btn-navy">Quero minha vaga</a>
+      <a href="#programa" class="btn btn-outline-white">Ver programação</a>
+    </div>
+
+    <div class="hero-meta">
+      <div class="hero-meta-item">
+        <div class="hero-meta-icon">📅</div>
+        <div>
+          <div class="hero-meta-lbl">Data</div>
+          <div class="hero-meta-val">11 a 13 de novembro de 2026</div>
+        </div>
+      </div>
+      <div class="hero-meta-item">
+        <div class="hero-meta-icon">📍</div>
+        <div>
+          <div class="hero-meta-lbl">Local</div>
+          <div class="hero-meta-val">Royal Palm Tower · Indaiatuba, SP</div>
+        </div>
+      </div>
+      <div class="hero-meta-item">
+        <div class="hero-meta-icon">🎯</div>
+        <div>
+          <div class="hero-meta-lbl">Tema 2026</div>
+          <div class="hero-meta-val">A produtividade começa na base</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="scroll-cue" aria-hidden="true">rolar</div>
+</section>
+
+<!-- STATS -->
+<div class="stats" role="region" aria-label="Números do evento">
+  <div class="stats-grid">
+    <div class="stat">
+      <div class="stat-num"><b>+200</b></div>
+      <div class="stat-lbl">Decisores reunidos</div>
+    </div>
+    <div class="stat">
+      <div class="stat-num"><b>+50</b>%</div>
+      <div class="stat-lbl">C-Level e diretores</div>
+    </div>
+    <div class="stat">
+      <div class="stat-num"><b>4</b></div>
+      <div class="stat-lbl">Pilares que movem resultado</div>
+    </div>
+    <div class="stat">
+      <div class="stat-num"><b>32</b></div>
+      <div class="stat-lbl">Anos. A maior edição.</div>
+    </div>
+  </div>
+</div>
+
+<!-- ABOUT -->
+<section class="about section" id="sobre">
+  <div class="container">
+    <div class="about-layout">
+      <div>
+        <span class="eyebrow">O Evento</span>
+        <div class="divider"></div>
+        <h2>O ENACAL sempre foi o encontro do setor. Em 2026, vira também o encontro dos negócios.</h2>
+        <p>Por três décadas, o ENACAL reuniu quem produz calcário. A partir de 2026, reúne também quem dirige, vende e decide.</p>
+        <p>O setor tem palco técnico há muito tempo. Agora ganha um palco estratégico.</p>
+        <a class="btn btn-outline-navy" href="#ingresso" style="margin-top:1.75rem">Garantir minha vaga</a>
+      </div>
+      <div>
+        <p style="font-size:.85rem;font-weight:600;color:var(--verde);margin-bottom:1rem;letter-spacing:.05em">O QUE VOCÊ LEVA PARA O SEU NEGÓCIO</p>
+        <div class="accordion" id="acc">
+          <div class="accordion-item">
+            <button class="acc-btn" aria-expanded="false" aria-controls="acc-1">
+              Inteligência Artificial
+              <span class="acc-icon" aria-hidden="true">+</span>
+            </button>
+            <div class="acc-body" id="acc-1" role="region">
+              <p>A IA já está no campo. A questão é se você vai usá-la antes ou depois dos seus concorrentes. Veja como ela está entrando na operação industrial e no comercial do agronegócio — e o que fazer agora.</p>
+            </div>
+          </div>
+          <div class="accordion-item">
+            <button class="acc-btn" aria-expanded="false" aria-controls="acc-2">
+              Marketing &amp; Posicionamento
+              <span class="acc-icon" aria-hidden="true">+</span>
+            </button>
+            <div class="acc-body" id="acc-2" role="region">
+              <p>Seu cliente já compra de alguém. Como fazer sua marca ser a referência que ele lembra primeiro — e a que ele não troca por preço.</p>
+            </div>
+          </div>
+          <div class="accordion-item">
+            <button class="acc-btn" aria-expanded="false" aria-controls="acc-3">
+              Gestão &amp; Eficiência Operacional
+              <span class="acc-icon" aria-hidden="true">+</span>
+            </button>
+            <div class="acc-body" id="acc-3" role="region">
+              <p>O que separa a mineradora que cresce da que sobrevive? Gestão. Veja onde as operações mais eficientes do setor estão ganhando — e o que dá para replicar na sua.</p>
+            </div>
+          </div>
+          <div class="accordion-item">
+            <button class="acc-btn" aria-expanded="false" aria-controls="acc-4">
+              Vendas &amp; Resultado Comercial
+              <span class="acc-icon" aria-hidden="true">+</span>
+            </button>
+            <div class="acc-body" id="acc-4" role="region">
+              <p>Toneladas vendem por preço. Receita vem de relacionamento, posicionamento e processo comercial. Como construir um time de vendas que fecha mais — sem depender de desconto.</p>
+            </div>
+          </div>
+          <div class="accordion-item">
+            <button class="acc-btn" aria-expanded="false" aria-controls="acc-5">
+              Produtividade &amp; Alta Performance
+              <span class="acc-icon" aria-hidden="true">+</span>
+            </button>
+            <div class="acc-body" id="acc-5" role="region">
+              <p>Você pode ter a melhor operação do setor. Sem a equipe certa, vai entregar metade do resultado. Como formar time de alta performance e construir a cultura que sustenta o crescimento.</p>
+            </div>
+          </div>
+          <div class="accordion-item">
+            <button class="acc-btn" aria-expanded="false" aria-controls="acc-6">
+              Inovação &amp; Novos Mercados
+              <span class="acc-icon" aria-hidden="true">+</span>
+            </button>
+            <div class="acc-body" id="acc-6" role="region">
+              <p>O mercado de corretivos está mudando. Novos produtos, novos compradores, novos canais. Quem enxergar primeiro vai crescer. Quem esperar vai correr atrás.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PILLARS -->
+<section class="pillars section" id="pilares">
+  <div class="container">
+    <span class="eyebrow">Conteúdo</span>
+    <div class="divider"></div>
+    <h2>4 Conversas que valem a viagem</h2>
+    <p>Cada pilar traz um especialista convidado com visão de negócio real para o setor. Uma palestra por pilar. Sem enrolação — direto ao que impacta gestão e resultado.</p>
+    <div class="pillars-grid">
+      <div class="pillar-card">
+        <div class="pillar-icon">💰</div>
+        <div class="pillar-num">01</div>
+        <h3>Finanças, Economia &amp; Estratégia</h3>
+        <p>Crescer sem se endividar. Como estruturar a empresa financeiramente para capturar oportunidades do setor sem comprometer a operação.</p>
+        <div class="pillar-footer">Conteudista a ser anunciado</div>
+      </div>
+      <div class="pillar-card">
+        <div class="pillar-icon">📣</div>
+        <div class="pillar-num">02</div>
+        <h3>Marketing, Vendas &amp; Posicionamento</h3>
+        <p>Como fazer sua marca ser a referência que o cliente lembra primeiro — e a que ele não troca por preço.</p>
+        <div class="pillar-footer">Conteudista a ser anunciado</div>
+      </div>
+      <div class="pillar-card">
+        <div class="pillar-icon">🤝</div>
+        <div class="pillar-num">03</div>
+        <h3>Liderança, Pessoas &amp; Cultura</h3>
+        <p>Você pode ter a melhor operação do setor. Sem a equipe certa, vai entregar metade do resultado. Como mudar isso.</p>
+        <div class="pillar-footer">Conteudista a ser anunciado</div>
+      </div>
+      <div class="pillar-card">
+        <div class="pillar-icon">⚡</div>
+        <div class="pillar-num">04</div>
+        <h3>Inovação, Tecnologia &amp; IA</h3>
+        <p>A IA já está no campo. A pergunta é se você vai usá-la antes ou depois da concorrência.</p>
+        <div class="pillar-footer">Conteudista a ser anunciado</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SCHEDULE -->
+<section class="schedule section" id="programa">
+  <div class="container">
+    <span class="eyebrow">Programação</span>
+    <div class="divider"></div>
+    <h2>Como os três dias funcionam</h2>
+    <div class="sched-grid">
+      <div class="sched-day">
+        <div class="sched-dayname">Quarta-feira</div>
+        <div class="sched-date">11 de novembro de 2026</div>
+        <div class="sched-item">
+          <div class="sched-time">Tarde</div>
+          <div class="sched-title">Credenciamento</div>
+          <div class="sched-note">Check-in e retirada de materiais</div>
+        </div>
+        <div class="sched-sep"></div>
+        <div class="sched-item">
+          <div class="sched-time">Noite</div>
+          <div class="sched-title">Happy Hour de Abertura</div>
+          <div class="sched-note">Networking e abertura oficial do evento</div>
+        </div>
+      </div>
+      <div class="sched-day">
+        <div class="sched-dayname">Quinta-feira</div>
+        <div class="sched-date">12 de novembro de 2026</div>
+        <div class="sched-item">
+          <div class="sched-time">10h00 – 11h00</div>
+          <div class="sched-title">Pilar 01 — Finanças, Economia &amp; Estratégia</div>
+          <div class="sched-note">Coffee break às 10h45</div>
+        </div>
+        <div class="sched-sep"></div>
+        <div class="sched-item">
+          <div class="sched-time">14h00 – 15h00</div>
+          <div class="sched-title">Pilar 02 — Marketing, Vendas &amp; Posicionamento</div>
+        </div>
+        <div class="sched-sep"></div>
+        <div class="sched-item">
+          <div class="sched-time">16h30 – 17h30</div>
+          <div class="sched-title">Pilar 03 — Liderança, Pessoas &amp; Cultura</div>
+        </div>
+      </div>
+      <div class="sched-day">
+        <div class="sched-dayname">Sexta-feira</div>
+        <div class="sched-date">13 de novembro de 2026</div>
+        <div class="sched-item">
+          <div class="sched-time">10h00 – 11h30</div>
+          <div class="sched-title">Pilar 04 — Inovação, Tecnologia &amp; IA</div>
+          <div class="sched-note">Coffee break às 10h45</div>
+        </div>
+        <div class="sched-sep"></div>
+        <div class="sched-item">
+          <div class="sched-time">11h30</div>
+          <div class="sched-title">Encerramento</div>
+          <div class="sched-note">Sessão de networking e despedida</div>
+        </div>
+      </div>
+    </div>
+    <p style="margin-top:2.5rem;font-size:.76rem;color:rgba(255,255,255,.3);max-width:none">
+      * Programação sujeita à confirmação final pelos conteudistas. Horários indicados como referência.
+    </p>
+  </div>
+</section>
+
+<!-- VENUE -->
+<section class="venue section" id="local">
+  <div class="container">
+    <div class="venue-layout">
+      <div>
+        <span class="eyebrow">Local</span>
+        <div class="divider"></div>
+        <h2>Royal Palm Tower</h2>
+        <p>Indaiatuba (SP). O ambiente foi escolhido para combinar com o nível do encontro — palco com produção broadcast, espaços de networking qualificado e estrutura para quem viaja de longe.</p>
+        <div class="venue-features">
+          <div class="venue-feat">
+            <div class="venue-feat-icon">🎬</div>
+            <div>
+              <div class="venue-feat-title">Palco Principal</div>
+              <div class="venue-feat-desc">Produção de alto nível. O conteúdo do palco vira vídeo — você sai com material que pode usar durante o ano.</div>
+            </div>
+          </div>
+          <div class="venue-feat">
+            <div class="venue-feat-icon">☕</div>
+            <div>
+              <div class="venue-feat-title">Coffee Lounge</div>
+              <div class="venue-feat-desc">Os intervalos são parte do evento. É onde as conversas mais importantes acontecem — sem agenda, sem pressa.</div>
+            </div>
+          </div>
+          <div class="venue-feat">
+            <div class="venue-feat-icon">🤝</div>
+            <div>
+              <div class="venue-feat-title">Lounge Executivo</div>
+              <div class="venue-feat-desc">Sala reservada para reuniões bilaterais entre diretores. Networking com propósito — não só troca de cartão.</div>
+            </div>
+          </div>
+          <div class="venue-feat">
+            <div class="venue-feat-icon">⚡</div>
+            <div>
+              <div class="venue-feat-title">Arena de Inovação</div>
+              <div class="venue-feat-desc">Veja tecnologia aplicada ao setor funcionando ao vivo. Sem slide de PowerPoint — só demonstração real.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="venue-visual">
+        <canvas id="venue-canvas" aria-hidden="true"></canvas>
+        <div class="venue-label">
+          Royal Palm Tower
+          <span>Indaiatuba · São Paulo</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PAST EDITIONS -->
+<section class="editions section" id="edicoes">
+  <div class="container">
+    <span class="eyebrow">Histórico</span>
+    <div class="divider"></div>
+    <h2>32 anos. Um encontro que resiste ao tempo porque entrega resultado.</h2>
+    <p>Itinerante pelos polos de calcário do Brasil — cada edição numa cidade diferente, com o mesmo nível de curadoria e audiência.</p>
+  </div>
+  <div class="container" style="margin-top:0">
+    <div class="carousel-wrap" id="carousel">
+      <div class="carousel-track" id="car-track">
+        <!-- slides injected by JS -->
+      </div>
+      <button class="car-nav prev" id="car-prev" aria-label="Anterior">&#8592;</button>
+      <button class="car-nav next" id="car-next" aria-label="Próxima">&#8594;</button>
+    </div>
+    <div class="car-dots" id="car-dots" role="tablist" aria-label="Edições"></div>
+  </div>
+</section>
+
+<!-- TICKETS -->
+<section class="tickets section" id="ingresso">
+  <div class="container">
+    <span class="eyebrow">Ingressos</span>
+    <div class="divider"></div>
+    <h2>Vagas limitadas. Garanta a sua.</h2>
+    <p>Em 2025, mais da metade dos ingressos foram vendidos antes do evento começar. Em 2026, a expectativa de demanda é maior ainda.</p>
+    <div class="tickets-grid">
+      <!-- Associado Sindical — destaque -->
+      <div class="ticket featured">
+        <span class="ticket-badge">1º Lote · Exclusivo</span>
+        <div class="ticket-name">Associado Sindical</div>
+        <div class="ticket-price">R$165</div>
+        <div class="ticket-price-note">por participante — exclusivo para associados</div>
+        <div class="ticket-details">
+          <div class="ticket-detail">90 ingressos disponíveis</div>
+          <div class="ticket-detail">Acesso completo aos 3 dias</div>
+          <div class="ticket-detail">Happy hour de abertura incluso</div>
+          <div class="ticket-detail">Todos os coffee breaks inclusos</div>
+          <div class="ticket-detail">Mínimo 1 · máximo 5 por compra</div>
+        </div>
+        <div class="ticket-period">Vendas: 27/08/2026 até 30/09/2026</div>
+        <a href="https://www.sympla.com.br/evento/encontro-nacional-dos-produtores-de-calcario-agricola-enacal-2026/2847998" target="_blank" rel="noopener" class="ticket-cta">Garantir ingresso</a>
+        <div class="ticket-restrict">🔒 Exclusivo para associados com vínculo ativo</div>
+      </div>
+      <!-- Público Geral -->
+      <div class="ticket">
+        <span class="ticket-badge">1º Lote · Geral</span>
+        <div class="ticket-name">Público Geral</div>
+        <div class="ticket-price">R$330</div>
+        <div class="ticket-price-note">por participante</div>
+        <div class="ticket-details">
+          <div class="ticket-detail">60 ingressos disponíveis</div>
+          <div class="ticket-detail">Acesso completo aos 3 dias</div>
+          <div class="ticket-detail">Happy hour de abertura incluso</div>
+          <div class="ticket-detail">Todos os coffee breaks inclusos</div>
+          <div class="ticket-detail">Aberto ao público geral do setor</div>
+        </div>
+        <div class="ticket-period">Vendas: 27/08/2026 até 30/09/2026</div>
+        <a href="https://www.sympla.com.br/evento/encontro-nacional-dos-produtores-de-calcario-agricola-enacal-2026/2847998" target="_blank" rel="noopener" class="ticket-cta">Garantir ingresso</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SPONSORS -->
+<section class="sponsors section" id="patrocinadores">
+  <div class="container">
+    <span class="eyebrow">Patrocinadores</span>
+    <div class="divider"></div>
+    <h2>Marcas do setor</h2>
+    <p class="sponsors-note">As marcas que estão construindo o futuro do setor — presentes do credenciamento ao palco principal, ao lado de quem decide.</p>
+    <div class="sp-group">
+      <span class="sp-label">Master</span>
+      <div class="sp-logos">
+        <div class="sp-slot master">Logo Patrocinador</div>
+        <div class="sp-slot master">Logo Patrocinador</div>
+      </div>
+    </div>
+    <div class="sp-group">
+      <span class="sp-label">Apoio</span>
+      <div class="sp-logos">
+        <div class="sp-slot">Logo Apoio</div>
+        <div class="sp-slot">Logo Apoio</div>
+        <div class="sp-slot">Logo Apoio</div>
+        <div class="sp-slot">Logo Apoio</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<div class="contact-band">
+  <div class="container">
+    <h2>Ficou com alguma dúvida?</h2>
+    <p>Nossa equipe está disponível para esclarecer informações sobre ingressos, patrocínio e programação.</p>
+    <button class="btn btn-outline-white" onclick="alert('Em breve: entre em contato pelo WhatsApp. Número a ser divulgado.')">Falar com a equipe</button>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-logo">ENA<b>CAL</b> <span style="font-family:var(--font-body);font-size:.85rem;font-weight:400;color:rgba(255,255,255,.3)">2026</span></div>
+    <div class="footer-meta">
+      <div>11–13 de novembro de 2026 · Royal Palm Tower, Indaiatuba (SP)</div>
+      <div style="margin-top:.15rem">Uma realização ABRACAL</div>
+    </div>
+  </div>
+</footer>
+
+<script>
+/* ─── HERO CANVAS ───────────────────────────────────── */
+(function(){
+  const cv = document.getElementById('hero-canvas');
+  const ctx = cv.getContext('2d');
+  let W, H, pts;
+  const NAVY = [36,77,110], VERDE = [90,105,79];
+  function lerp(a,b,t){return a+(b-a)*t}
+  function resize(){W=cv.width=cv.offsetWidth;H=cv.height=cv.offsetHeight;init()}
+  function init(){
+    pts=[];
+    const n=Math.floor((W*H)/14000);
+    for(let i=0;i<n;i++){
+      const col=Math.random()>.5?VERDE:NAVY;
+      pts.push({x:Math.random()*W,y:Math.random()*H,vx:(Math.random()-.5)*.3,vy:(Math.random()-.5)*.3,col,r:Math.random()*1.5+.8})
+    }
+  }
+  function draw(){
+    ctx.clearRect(0,0,W,H);
+    const D=130;
+    for(let i=0;i<pts.length;i++){
+      const p=pts[i];
+      p.x+=p.vx;p.y+=p.vy;
+      if(p.x<0||p.x>W)p.vx*=-1;
+      if(p.y<0||p.y>H)p.vy*=-1;
+      for(let j=i+1;j<pts.length;j++){
+        const q=pts[j];
+        const dx=p.x-q.x,dy=p.y-q.y,d=Math.sqrt(dx*dx+dy*dy);
+        if(d<D){
+          const a=(1-d/D)*.4;
+          const rc=lerp(p.col[0],q.col[0],.5);
+          const gc=lerp(p.col[1],q.col[1],.5);
+          const bc=lerp(p.col[2],q.col[2],.5);
+          ctx.strokeStyle=`rgba(${rc},${gc},${bc},${a})`;
+          ctx.lineWidth=.8;
+          ctx.beginPath();ctx.moveTo(p.x,p.y);ctx.lineTo(q.x,q.y);ctx.stroke();
+        }
+      }
+      ctx.beginPath();
+      ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
+      ctx.fillStyle=`rgba(${p.col[0]},${p.col[1]},${p.col[2]},.8)`;
+      ctx.fill();
+    }
+    requestAnimationFrame(draw);
+  }
+  window.addEventListener('resize',resize);
+  resize();draw();
+})();
+
+/* ─── VENUE CANVAS ──────────────────────────────────── */
+(function(){
+  const cv = document.getElementById('venue-canvas');
+  if(!cv)return;
+  const ctx=cv.getContext('2d');
+  let W,H,nodes;
+  function resize(){W=cv.width=cv.offsetWidth;H=cv.height=cv.offsetHeight;init()}
+  function init(){
+    nodes=[];
+    const n=18;
+    for(let i=0;i<n;i++){
+      nodes.push({x:Math.random()*W,y:Math.random()*H,vx:(Math.random()-.5)*.2,vy:(Math.random()-.5)*.2})
+    }
+  }
+  function draw(){
+    ctx.clearRect(0,0,W,H);
+    const D=100;
+    for(let i=0;i<nodes.length;i++){
+      const p=nodes[i];
+      p.x+=p.vx;p.y+=p.vy;
+      if(p.x<0||p.x>W)p.vx*=-1;
+      if(p.y<0||p.y>H)p.vy*=-1;
+      for(let j=i+1;j<nodes.length;j++){
+        const q=nodes[j];
+        const dx=p.x-q.x,dy=p.y-q.y,d=Math.sqrt(dx*dx+dy*dy);
+        if(d<D){
+          ctx.strokeStyle=`rgba(90,105,79,${(1-d/D)*.5})`;
+          ctx.lineWidth=.8;
+          ctx.beginPath();ctx.moveTo(p.x,p.y);ctx.lineTo(q.x,q.y);ctx.stroke();
+        }
+      }
+      ctx.beginPath();ctx.arc(p.x,p.y,2,0,Math.PI*2);
+      ctx.fillStyle='rgba(90,105,79,.7)';ctx.fill();
+    }
+    requestAnimationFrame(draw);
+  }
+  window.addEventListener('resize',resize);
+  resize();draw();
+})();
+
+/* ─── ACCORDION ─────────────────────────────────────── */
+document.querySelectorAll('.acc-btn').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    const open=btn.getAttribute('aria-expanded')==='true';
+    document.querySelectorAll('.acc-btn').forEach(b=>{
+      b.setAttribute('aria-expanded','false');
+      document.getElementById(b.getAttribute('aria-controls')).style.maxHeight='0';
+    });
+    if(!open){
+      btn.setAttribute('aria-expanded','true');
+      const body=document.getElementById(btn.getAttribute('aria-controls'));
+      body.style.maxHeight=body.scrollHeight+'px';
+    }
+  });
+});
+
+/* ─── CAROUSEL ───────────────────────────────────────── */
+(function(){
+  const editions=[
+    {year:'ENACAL 2025',loc:'Goiânia · GO',col1:'#1a3850',col2:'#244d6e'},
+    {year:'ENACAL 2024',loc:'Cuiabá · MT',col1:'#5a694f',col2:'#3a5040'},
+    {year:'ENACAL 2023',loc:'Campo Grande · MS',col1:'#1a3850',col2:'#0e2030'},
+    {year:'ENACAL 2022',loc:'Patos de Minas · MG',col1:'#4a5840',col2:'#5a694f'},
+    {year:'ENACAL 2021',loc:'Edição digital',col1:'#1a2530',col2:'#244d6e'},
+    {year:'ENACAL 2019',loc:'Araxá · MG',col1:'#5a694f',col2:'#244d6e'},
+  ];
+  const track=document.getElementById('car-track');
+  const dotsEl=document.getElementById('car-dots');
+  let cur=0,dragging=false,startX=0,diffX=0;
+
+  editions.forEach((ed,i)=>{
+    const slide=document.createElement('div');
+    slide.className='carousel-slide';
+    const cv=document.createElement('canvas');
+    slide.appendChild(cv);
+    const cap=document.createElement('div');
+    cap.className='carousel-cap';
+    cap.innerHTML=`<div class="carousel-cap-year">${ed.year}</div><div class="carousel-cap-info">${ed.loc}</div>`;
+    slide.appendChild(cap);
+    track.appendChild(slide);
+
+    // draw slide art
+    const ctx2=cv.getContext('2d');
+    function drawSlide(){
+      const W=cv.width=cv.offsetWidth;
+      const H=cv.height=cv.offsetHeight;
+      const g=ctx2.createLinearGradient(0,0,W,H);
+      g.addColorStop(0,ed.col1);g.addColorStop(1,ed.col2);
+      ctx2.fillStyle=g;ctx2.fillRect(0,0,W,H);
+      // mountain silhouette
+      ctx2.fillStyle='rgba(0,0,0,.15)';
+      ctx2.beginPath();
+      ctx2.moveTo(0,H);ctx2.lineTo(W*.3,H*.25);ctx2.lineTo(W*.55,H*.5);ctx2.lineTo(W*.7,H*.15);ctx2.lineTo(W,H*.4);ctx2.lineTo(W,H);
+      ctx2.closePath();ctx2.fill();
+      // dots
+      for(let k=0;k<30;k++){
+        ctx2.beginPath();ctx2.arc(Math.random()*W,Math.random()*H,1,0,Math.PI*2);
+        ctx2.fillStyle='rgba(255,255,255,.15)';ctx2.fill();
+      }
+    }
+    requestAnimationFrame(drawSlide);
+    window.addEventListener('resize',drawSlide);
+
+    const dot=document.createElement('button');
+    dot.className='car-dot'+(i===0?' active':'');
+    dot.setAttribute('aria-label',ed.year);
+    dot.setAttribute('role','tab');
+    dot.addEventListener('click',()=>goTo(i));
+    dotsEl.appendChild(dot);
+  });
+
+  function goTo(n){
+    cur=Math.max(0,Math.min(editions.length-1,n));
+    track.style.transform=`translateX(-${cur*100}%)`;
+    document.querySelectorAll('.car-dot').forEach((d,i)=>d.classList.toggle('active',i===cur));
+  }
+
+  document.getElementById('car-prev').addEventListener('click',()=>goTo(cur-1));
+  document.getElementById('car-next').addEventListener('click',()=>goTo(cur+1));
+
+  // touch/swipe
+  const wrap=document.getElementById('carousel');
+  wrap.addEventListener('pointerdown',e=>{dragging=true;startX=e.clientX;wrap.setPointerCapture(e.pointerId)});
+  wrap.addEventListener('pointermove',e=>{if(!dragging)return;diffX=e.clientX-startX});
+  wrap.addEventListener('pointerup',()=>{
+    if(Math.abs(diffX)>50)goTo(diffX<0?cur+1:cur-1);
+    dragging=false;diffX=0;
+  });
+})();
+</script>
