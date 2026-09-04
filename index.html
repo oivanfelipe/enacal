@@ -1,0 +1,818 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Jornada do Lead · ENACAL 2026</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap">
+<style>
+:root {
+  --red: #CC1F1F;
+  --red-lt: rgba(204,31,31,0.07);
+  --red-md: rgba(204,31,31,0.22);
+  --bg: #FFFFFF;
+  --text: #111111;
+  --muted: #666666;
+  --subtle: #999999;
+  --surface: #F5F5F5;
+  --border: #DEDEDE;
+  --green: #1A6B3F;
+  --green-bg: #EEF8F3;
+  --green-border: rgba(26,107,63,0.28);
+  --blue: #1A4A8A;
+  --blue-bg: #EEF3FB;
+  --blue-border: rgba(26,74,138,0.25);
+  --purple: #5A2D8A;
+  --purple-bg: #F3EEF8;
+  --purple-border: rgba(90,45,138,0.25);
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg:#0F0F0F;--text:#F0F0F0;--muted:#888;--subtle:#666;
+    --surface:#1A1A1A;--border:#2C2C2C;
+    --green-bg:#0A1F12;--green-border:rgba(26,107,63,.35);
+    --red-lt:rgba(204,31,31,.10);
+    --blue-bg:#0A121F;--blue-border:rgba(26,74,138,.35);
+    --purple-bg:#160A1F;--purple-border:rgba(90,45,138,.35);
+  }
+}
+:root[data-theme="dark"] {
+  --bg:#0F0F0F;--text:#F0F0F0;--muted:#888;--subtle:#666;
+  --surface:#1A1A1A;--border:#2C2C2C;
+  --green-bg:#0A1F12;--green-border:rgba(26,107,63,.35);
+  --red-lt:rgba(204,31,31,.10);
+  --blue-bg:#0A121F;--blue-border:rgba(26,74,138,.35);
+  --purple-bg:#160A1F;--purple-border:rgba(90,45,138,.35);
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Inter',system-ui,sans-serif;background:var(--bg);color:var(--text);min-height:100vh;padding:52px 24px 100px;-webkit-font-smoothing:antialiased;font-size:16px;}
+@media(prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important;}}
+
+/* HEADER */
+.hd{text-align:center;margin-bottom:56px;}
+.eyebrow{font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--red);margin-bottom:14px;}
+.hd h1{font-size:28px;font-weight:800;line-height:1.2;text-wrap:balance;margin-bottom:20px;}
+.meta-row{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-bottom:24px;}
+.meta-pill{font-size:12px;font-weight:500;padding:5px 14px;border:1px solid var(--border);border-radius:100px;color:var(--muted);}
+
+/* FLOW */
+.flow{max-width:660px;margin:0 auto;display:flex;flex-direction:column;align-items:center;}
+.section-tag{font-size:10px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--subtle);margin-bottom:12px;text-align:center;}
+
+/* Node */
+.node{width:100%;background:var(--bg);border:1.5px solid var(--border);border-radius:12px;padding:18px 22px;text-align:center;position:relative;}
+.node.green-node{border-color:var(--green-border);background:var(--green-bg);}
+.node.blue-node{border-color:var(--blue-border);background:var(--blue-bg);}
+.node.purple-node{border-color:var(--purple-border);background:var(--purple-bg);}
+.node-icon{font-size:22px;margin-bottom:7px;}
+.node-title{font-size:15px;font-weight:700;}
+.node-sub{font-size:13px;color:var(--muted);margin-top:4px;line-height:1.4;}
+
+/* Open button */
+.open-btn{
+  display:inline-flex;align-items:center;gap:7px;
+  font-size:13px;font-weight:700;
+  color:#fff;background:var(--red);
+  border:none;border-radius:8px;padding:9px 18px;margin-top:13px;
+  cursor:pointer;font-family:inherit;
+  transition:opacity .15s,transform .1s;
+  position:relative;z-index:1;
+}
+.open-btn:hover{opacity:.85;transform:translateY(-1px);}
+.open-btn:focus-visible{outline:2px solid var(--red);outline-offset:3px;box-shadow:0 0 0 4px rgba(204,31,31,.2);}
+
+/* Date badge */
+.date-badge{display:inline-block;font-size:10px;font-weight:700;color:var(--red);background:var(--red-lt);border:1px solid var(--red-md);border-radius:6px;padding:2px 10px;margin-bottom:8px;}
+
+/* Badges */
+.badges{display:flex;flex-wrap:wrap;gap:5px;justify-content:center;margin-top:10px;}
+.badge{font-size:10px;font-weight:700;letter-spacing:.04em;padding:3px 9px;border-radius:5px;background:var(--surface);color:var(--muted);}
+.badge.red{background:var(--red-lt);color:var(--red);}
+
+/* Node row */
+.node-row{display:flex;gap:12px;width:100%;}
+.node-row .node{flex:1;}
+
+/* Arrow */
+.arrow{display:flex;flex-direction:column;align-items:center;padding:2px 0;}
+.arrow-line{width:2px;height:30px;background:var(--border);}
+.arrow-tip{width:0;height:0;border-left:6px solid transparent;border-right:6px solid transparent;border-top:8px solid var(--border);}
+.arrow.red .arrow-line{background:var(--red);}
+.arrow.red .arrow-tip{border-top-color:var(--red);}
+.arrow.green .arrow-line{background:var(--green);}
+.arrow.green .arrow-tip{border-top-color:var(--green);}
+.arrow-label{font-size:10px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--subtle);background:var(--bg);border:1px solid var(--border);border-radius:100px;padding:4px 12px;margin:-2px 0;white-space:nowrap;}
+.arrow-label.red{color:var(--red);border-color:var(--red-md);background:var(--red-lt);}
+
+/* SVG converge */
+.converge{width:100%;position:relative;}
+.converge svg{width:100%;height:100%;overflow:visible;}
+
+/* Exit paths */
+.exit-paths{width:100%;display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+.exit-col{display:flex;flex-direction:column;align-items:center;}
+.exit-path-tag{font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--subtle);margin-bottom:8px;display:block;}
+.exit-card{width:100%;border:1.5px solid var(--border);border-radius:12px;padding:16px 18px;text-align:center;background:var(--bg);}
+.exit-card.dashed{border-style:dashed;background:var(--surface);}
+.exit-icon{font-size:20px;margin-bottom:6px;}
+.exit-title{font-size:14px;font-weight:700;}
+.exit-sub{font-size:12px;color:var(--muted);margin-top:4px;line-height:1.4;}
+
+/* Diamond */
+.diamond-wrap{width:140px;height:140px;position:relative;flex-shrink:0;}
+.diamond-bg{width:98px;height:98px;background:var(--bg);border:2px solid var(--text);transform:rotate(45deg);position:absolute;top:50%;left:50%;margin-top:-49px;margin-left:-49px;}
+.diamond-label{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;}
+.diamond-text{font-size:14px;font-weight:800;}
+.diamond-sub{font-size:10px;color:var(--muted);margin-top:3px;}
+
+/* Decision split */
+.decision-split{width:100%;display:flex;gap:16px;align-items:flex-start;}
+.decision-col{flex:1;display:flex;flex-direction:column;align-items:center;}
+.decision-label{font-size:11px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;padding:4px 14px;border-radius:100px;margin-bottom:12px;}
+.label-sim{background:rgba(26,107,63,.1);color:var(--green);border:1px solid var(--green-border);}
+.label-nao{background:var(--red-lt);color:var(--red);border:1px solid var(--red-md);}
+
+/* Onboarding */
+.ob-step{display:flex;align-items:flex-start;gap:12px;padding:9px 0;border-bottom:1px solid var(--border);}
+.ob-step:last-child{border-bottom:none;}
+.ob-dot{width:7px;height:7px;border-radius:50%;background:var(--green);flex-shrink:0;margin-top:5px;}
+.ob-dot.blue{background:var(--blue);}
+.ob-text{font-size:12px;color:var(--muted);line-height:1.5;flex:1;}
+.ob-time{font-size:11px;font-weight:700;color:var(--green);min-width:32px;flex-shrink:0;padding-top:2px;}
+.ob-time.blue{color:var(--blue);}
+
+/* Reativação */
+.reativ-list{width:100%;display:flex;flex-direction:column;gap:8px;}
+button.reativ-step{display:flex;align-items:center;gap:12px;background:var(--surface);border:1.5px solid var(--border);border-radius:10px;padding:12px 16px;cursor:pointer;transition:border-color .15s,background .15s;width:100%;text-align:left;font-family:inherit;}
+button.reativ-step:hover{border-color:var(--red);background:var(--red-lt);}
+button.reativ-step:focus-visible{outline:2px solid var(--red);outline-offset:2px;}
+.reativ-time{font-size:12px;font-weight:800;color:var(--red);min-width:40px;flex-shrink:0;}
+.reativ-desc{font-size:13px;color:var(--text);font-weight:500;flex:1;}
+.reativ-arrow{font-size:12px;color:var(--subtle);flex-shrink:0;}
+
+/* Return dashed */
+.return-block{width:100%;padding:14px 0 4px;text-align:center;}
+.return-dashed{border:none;border-top:2px dashed var(--border);position:relative;margin:10px 0;}
+.return-text{position:absolute;top:-10px;left:50%;transform:translateX(-50%);font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--subtle);background:var(--bg);padding:0 12px;white-space:nowrap;}
+
+/* Seg note */
+.seg-note{display:flex;gap:7px;justify-content:center;flex-wrap:wrap;margin-top:10px;}
+.seg-pill{font-size:11px;font-weight:600;padding:3px 12px;border-radius:100px;border:1px solid var(--border);color:var(--muted);}
+.seg-pill.red{border-color:var(--red-md);color:var(--red);background:var(--red-lt);}
+
+/* MODAL */
+.overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0);z-index:200;transition:background .22s;}
+.overlay.vis{background:rgba(0,0,0,.55);}
+.modal{
+  position:fixed;top:50%;left:50%;
+  transform:translate(-50%,-46%) scale(.95);
+  opacity:0;
+  width:min(620px,94vw);
+  max-height:84vh;
+  background:var(--bg);
+  border-radius:18px;
+  overflow:hidden;
+  display:flex;flex-direction:column;
+  z-index:201;
+  transition:transform .25s cubic-bezier(.25,.8,.25,1),opacity .25s;
+  box-shadow:0 24px 72px rgba(0,0,0,.20);
+  pointer-events:none;
+}
+.modal.open{transform:translate(-50%,-50%) scale(1);opacity:1;pointer-events:auto;}
+.modal-head{display:flex;align-items:center;justify-content:space-between;padding:20px 26px 16px;border-bottom:1px solid var(--border);flex-shrink:0;}
+.modal-title{font-size:17px;font-weight:800;color:var(--text);}
+.modal-close{width:32px;height:32px;border-radius:50%;border:1px solid var(--border);background:none;display:flex;align-items:center;justify-content:center;font-size:15px;color:var(--muted);cursor:pointer;font-family:inherit;transition:background .12s;}
+.modal-close:hover{background:var(--surface);}
+.modal-close:focus-visible{outline:2px solid var(--red);outline-offset:2px;}
+.modal-body{overflow-y:auto;padding:22px 26px 36px;flex:1;}
+.modal-intro{font-size:13px;color:var(--muted);line-height:1.65;margin-bottom:22px;padding-bottom:18px;border-bottom:1px solid var(--border);}
+
+/* Seq steps */
+.seq-step{display:flex;gap:16px;padding:16px 0;border-bottom:1px solid var(--border);}
+.seq-step:last-child{border-bottom:none;}
+.seq-day{font-size:12px;font-weight:800;color:var(--red);min-width:50px;padding-top:2px;flex-shrink:0;}
+.seq-body{flex:1;}
+.seq-subject{font-size:14px;font-weight:700;margin-bottom:5px;}
+.seq-desc{font-size:13px;color:var(--muted);line-height:1.55;}
+.seq-cta{font-size:12px;font-weight:700;color:var(--red);margin-top:7px;display:block;}
+
+/* Script blocks */
+.script-block{background:var(--surface);border-left:3px solid var(--red);border-radius:0 10px 10px 0;padding:14px 18px;margin-bottom:10px;}
+.script-block:last-child{margin-bottom:0;}
+.script-label{font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--red);margin-bottom:8px;}
+.script-text{font-size:13px;line-height:1.65;color:var(--text);}
+
+/* Message cards */
+.msg-card{border:1px solid var(--border);border-left:3px solid var(--red);border-radius:0 10px 10px 0;padding:14px 16px;margin-bottom:10px;}
+.msg-card:last-child{margin-bottom:0;}
+.msg-head{display:flex;align-items:center;gap:10px;margin-bottom:9px;}
+.msg-time{font-size:10px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:var(--red);}
+.msg-title{font-size:13px;font-weight:600;color:var(--text);}
+.msg-text{font-size:13px;color:var(--muted);line-height:1.65;}
+
+/* Utils */
+.full-w{width:100%;}
+.gap-8{height:8px;}
+.gap-10{height:10px;}
+.gap-14{height:14px;}
+
+/* Tracking table */
+.track-table{width:100%;border-collapse:collapse;font-size:13px;}
+.track-table thead tr{background:var(--surface);}
+.track-table th{text-align:left;font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--subtle);padding:10px 14px;border-bottom:2px solid var(--border);}
+.track-table td{padding:9px 14px;border-bottom:1px solid var(--border);color:var(--text);vertical-align:middle;line-height:1.4;}
+.track-table td:first-child{font-weight:600;color:var(--muted);white-space:nowrap;font-size:12px;}
+.track-table td:last-child{font-size:11px;color:var(--subtle);white-space:nowrap;font-variant-numeric:tabular-nums;}
+.track-group td:first-child{border-top:2px solid var(--border);}
+.track-table tbody tr:hover td{background:var(--surface);}
+</style>
+</head>
+<body>
+
+<!-- OVERLAY -->
+<div class="overlay" id="overlay" onclick="closeAll()"></div>
+
+<!-- MODAL: Email Ativação -->
+<div class="modal" id="d-email" role="dialog" aria-modal="true" aria-labelledby="t-email">
+  <div class="modal-head">
+    <span class="modal-title" id="t-email">📧 Régua de Email · Associados Sindicais</span>
+    <button class="modal-close" onclick="cl('d-email')" aria-label="Fechar">✕</button>
+  </div>
+  <div class="modal-body">
+    <p class="modal-intro"><strong>7 emails · 05/09 → 30/09/2026</strong><br>Prazo lote associado: 30/09 às 23h45 · Associado R$165 · Público Geral R$330<br><em>Fase 1 (E-01/02): Aquecimento. Fase 2 (E-03): Benefício. Fase 3 (E-04/06): Urgência.</em></p>
+
+    <div class="seq-step">
+      <div class="seq-day">E-01<br><small style="font-weight:500;color:var(--muted);">05/09</small></div>
+      <div class="seq-body">
+        <div class="seq-subject">✉️ O setor inteiro se encontra em novembro. Você vai estar lá?</div>
+        <div class="seq-desc" style="font-size:12px;font-style:italic;color:var(--subtle);margin-bottom:6px;">Preheader: ENACAL 2026 — o único encontro nacional de calcário agrícola, agro e mineração. Três dias que valem o ano.</div>
+        <div class="seq-desc">[Nome],<br><br>Em novembro, 200 líderes de mineração, agro e indústria se reúnem em um único lugar. CEOs, diretores industriais, gerentes comerciais, produtores rurais, compradores do agro — o mesmo ambiente, três dias.<br><br>Não é congresso. Não é feira. É o ENACAL — 32 anos de história. E 2026 vai ser a maior edição.<br><br>O tema é direto: <em>A produtividade começa na base.</em> Em 2026 o escopo amplia para finanças, vendas, liderança e IA — com especialistas com visão de negócio real para o setor.<br><br>Nos próximos dias você vai conhecer o que acontece em cada um dos três dias — e qual é a vantagem que você tem como associado para participar.<br><br>Se já quiser garantir sua vaga agora, o acesso para associados está aberto.</div>
+        <span class="seq-cta">CTA: "→ Garantir minha vaga — R$ 165 (associado)" · Vagas limitadas · condição exclusiva para associados</span>
+      </div>
+    </div>
+
+    <div class="seq-step">
+      <div class="seq-day">E-02<br><small style="font-weight:500;color:var(--muted);">07/09</small></div>
+      <div class="seq-body">
+        <div class="seq-subject">✉️ O que acontece em Indaiatuba em novembro — e por que vale a viagem</div>
+        <div class="seq-desc" style="font-size:12px;font-style:italic;color:var(--subtle);margin-bottom:6px;">Preheader: 3 dias. 4 especialistas. 200 decisores. O palco mais estratégico que o setor já teve.</div>
+        <div class="seq-desc">[Nome],<br><br>Três dias. Quatro blocos de conteúdo. Royal Palm Tower, Indaiatuba (SP).<br><br>→ Finanças, Economia &amp; Estratégia — Crescer com segurança financeira e visão de longo prazo<br>→ Marketing, Vendas &amp; Posicionamento — Fortalecer a marca e conquistar mais clientes<br>→ Liderança, Pessoas &amp; Cultura — Formar equipes de alta performance<br>→ Inovação, Tecnologia &amp; IA — Usar tecnologia para aumentar produtividade e competitividade<br><br>Mais de 50% do público são CEOs, diretores e sócios com poder real de decisão. Você não vai encontrar esse nível de audiência em nenhum outro evento do setor.<br><br>No próximo email: qual é a vantagem específica que você tem como associado — e por quanto tempo ela está disponível.</div>
+        <span class="seq-cta">CTA: "→ Garantir minha vaga — R$ 165 (associado)" · Prazo: 30/09/2026 · exclusivo para associados com vínculo ativo</span>
+      </div>
+    </div>
+
+    <div class="seq-step">
+      <div class="seq-day">E-03<br><small style="font-weight:500;color:var(--muted);">11/09</small></div>
+      <div class="seq-body">
+        <div class="seq-subject">✉️ Associado não paga o mesmo que o público geral. Veja a diferença.</div>
+        <div class="seq-desc" style="font-size:12px;font-style:italic;color:var(--subtle);margin-bottom:6px;">Preheader: Sua condição de acesso ao ENACAL 2026 — e o que ela representa para o seu bolso.</div>
+        <div class="seq-desc">[Nome],<br><br>Tem uma distinção importante que eu preciso deixar clara.<br><br>O ENACAL 2026 está aberto para dois públicos. As condições são muito diferentes.<br><br><span style="font-family:monospace;font-size:11px;line-height:1.8;">Público Geral ···················· R$ 330<br>VOCÊ — Associado Sindical ········· R$ 165 ← METADE DO PREÇO<br>Exclusivo para associados com vínculo ativo</span><br><br>Pelo mesmo evento. Pelo mesmo conteúdo. Pelo mesmo ambiente com 200 decisores do setor.<br><br>Essa não é uma promoção genérica. É um benefício direto da sua condição de associado — e ele só vale até 30 de setembro às 23h45.<br><br>Depois dessa data, as condições exclusivas para associados encerram. Se houver vagas remanescentes, elas vão para o público geral — ao preço cheio.<br><br>Não é questão de ser mais barato. É ter acesso prioritário ao único encontro nacional do setor com uma vantagem que só existe porque você é associado.</div>
+        <span class="seq-cta">CTA: "→ Quero garantir com desconto de associado" · Prazo: 30/09/2026 às 23h45 · mínimo 1, máximo 5 ingressos</span>
+      </div>
+    </div>
+
+    <div class="seq-step">
+      <div class="seq-day">E-04<br><small style="font-weight:500;color:var(--muted);">15/09</small></div>
+      <div class="seq-body">
+        <div class="seq-subject">✉️ 11 dias para usar seu benefício de associado. Depois disso, só preço cheio.</div>
+        <div class="seq-desc" style="font-size:12px;font-style:italic;color:var(--subtle);margin-bottom:6px;">Preheader: 30/09 é o prazo final para condições exclusivas. Não tem prorrogação.</div>
+        <div class="seq-desc">[Nome],<br><br>Em 11 dias, as condições exclusivas para associados encerram.<br><br>A partir de 1º de outubro, o acesso ao ENACAL 2026 — se ainda houver vagas — vai custar o dobro do que você paga hoje.<br><br><span style="font-family:monospace;font-size:11px;line-height:1.8;">Depois de 30/09 — preço público geral ····· R$ 330<br>AGORA, até 30/09 — preço de associado ····· R$ 165 ← Você economiza R$ 165 por ingresso</span><br><br>Essa janela fecha no dia 30 de setembro às 23h45.<br><br>Não é urgência criada. É o prazo real de um benefício que existe porque você é associado — e que desaparece quando o calendário virar.<br><br>As vagas são limitadas. O prazo é fixo. O que vier primeiro, determina.</div>
+        <span class="seq-cta">CTA: "→ Garantir minha vaga antes de 30/09" · 11 dias restantes · associados com vínculo ativo</span>
+      </div>
+    </div>
+
+    <div class="seq-step">
+      <div class="seq-day">E-05<br><small style="font-weight:500;color:var(--muted);">20/09</small></div>
+      <div class="seq-body">
+        <div class="seq-subject">✉️ 4 dias. Depois disso, você paga o dobro — se ainda houver vaga.</div>
+        <div class="seq-desc" style="font-size:12px;font-style:italic;color:var(--subtle);margin-bottom:6px;">Preheader: Seu prazo como associado encerra em 30/09 às 23h45. Sem exceção.</div>
+        <div class="seq-desc">[Nome],<br><br>Na quinta-feira, dia 30 de setembro às 23h45, as condições exclusivas para associados encerram.<br><br>Restam 4 dias.<br><br>O que está em jogo é simples:<br><br>→ Você garante agora por R$ 165,00 como associado<br>→ Ou perde o benefício e paga R$ 330,00 se quiser participar depois<br>→ Ou não encontra mais vagas disponíveis<br><br>Não tem terceira opção.<br><br>Você pode levar até 5 ingressos por compra. Se tiver colegas no sindicato que deveriam estar no ENACAL, essa é a hora de incluí-los.<br><br>11 a 13 de novembro. Royal Palm Tower. Indaiatuba (SP). O maior encontro estratégico do setor de calcário agrícola.</div>
+        <span class="seq-cta">CTA: "→ Garantir agora — 4 dias restantes" · Prazo final: 30/09 às 23h45</span>
+      </div>
+    </div>
+
+    <div class="seq-step">
+      <div class="seq-day">E-06A<br><small style="font-weight:500;color:var(--muted);">30/09 · 9h</small></div>
+      <div class="seq-body">
+        <div class="seq-subject">✉️ Hoje é o último dia. Seu benefício de associado encerra às 23h45.</div>
+        <div class="seq-desc" style="font-size:12px;font-style:italic;color:var(--subtle);margin-bottom:6px;">Preheader: Depois disso, acesso só pelo preço cheio — R$330. Se houver vagas.</div>
+        <div class="seq-desc">[Nome],<br><br>Hoje, 30 de setembro, é o último dia para garantir sua vaga no ENACAL 2026 com o benefício de associado.<br><br>O prazo encerra às 23h45.<br><br><span style="font-family:monospace;font-size:11px;line-height:1.8;">ASSOCIADO — até hoje às 23h45 ····· R$ 165 ← Último acesso com desconto<br>Público Geral — a partir de amanhã<br>(se ainda houver vagas) ··········· R$ 330</span><br><br>Se você ainda não garantiu sua vaga, hoje é o dia. Não tem amanhã com esse benefício.</div>
+        <span class="seq-cta">CTA: "→ Garantir minha vaga — último dia" · Prazo: hoje às 23h45 · 11–13 de novembro · Indaiatuba (SP)</span>
+      </div>
+    </div>
+
+    <div class="seq-step">
+      <div class="seq-day">E-06B<br><small style="font-weight:500;color:var(--muted);">30/09 · 17h</small></div>
+      <div class="seq-body">
+        <div class="seq-subject">✉️ Faltam 6 horas. Depois das 23h45, você paga o dobro.</div>
+        <div class="seq-desc" style="font-size:12px;font-style:italic;color:var(--subtle);margin-bottom:6px;">Preheader: Última chance de usar seu benefício como associado antes do prazo encerrar.</div>
+        <div class="seq-desc">[Nome],<br><br>Em 6 horas, as condições de associado encerram. Às 23h45 de hoje.<br><br>Não vou inventar urgência que não existe: o prazo é real. O benefício é real. E depois de hoje, ele não volta.<br><br>Quem garantiu a vaga pagou R$ 165,00. Quem não garantiu, vai pagar R$ 330,00 — ou não vai ao ENACAL 2026.</div>
+        <span class="seq-cta">CTA: "→ Último acesso com benefício — garantir agora" · 23h45 de hoje · sem prorrogação</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL: WPP Ativação -->
+<div class="modal" id="d-wpp-ativ" role="dialog" aria-modal="true" aria-labelledby="t-wpp-ativ">
+  <div class="modal-head">
+    <span class="modal-title" id="t-wpp-ativ">📱 WPP — Cadência de Ativação</span>
+    <button class="modal-close" onclick="cl('d-wpp-ativ')" aria-label="Fechar">✕</button>
+  </div>
+  <div class="modal-body">
+    <p class="modal-intro">Início em <strong>09/09</strong>. Broadcast para a base WPP com cadência paralela ao email. Mensagens curtas, diretas, com link da LP. Tom informal e próximo.</p>
+    <div class="seq-step">
+      <div class="seq-day">D0<br><small style="font-weight:500;color:var(--muted);">09/09</small></div>
+      <div class="seq-body">
+        <div class="seq-subject">📲 Anúncio de abertura</div>
+        <div class="seq-desc">Oi [Nome]! 🌾 As inscrições para o ENACAL 2026 estão abertas!<br><br>📅 11–13 de novembro | Royal Palm Tower · Indaiatuba/SP<br>Associado ABCAL: R$165 | Geral: R$330 (cupom ENACAL2026)<br><br>Saiba tudo aqui 👇</div>
+        <span class="seq-cta">CTA: [link LP]</span>
+      </div>
+    </div>
+    <div class="seq-step">
+      <div class="seq-day">D+3<br><small style="font-weight:500;color:var(--muted);">12/09</small></div>
+      <div class="seq-body">
+        <div class="seq-subject">📲 Prova social + programação</div>
+        <div class="seq-desc">Destaque de 1 palestrante ou tema central. "São 3 dias de atualização técnica, network e negócios para o setor. Esse é o evento que você não pode perder."</div>
+        <span class="seq-cta">CTA: "Ver detalhes 👇" [link LP]</span>
+      </div>
+    </div>
+    <div class="seq-step">
+      <div class="seq-day">D+7<br><small style="font-weight:500;color:var(--muted);">16/09</small></div>
+      <div class="seq-body">
+        <div class="seq-subject">📲 Benefício exclusivo para associados</div>
+        <div class="seq-desc">Você é associado ABCAL? Então você tem preço especial: R$165 com cupom ENACAL2026 (geral R$330). Inscrições limitadas!</div>
+        <span class="seq-cta">CTA: "Inscreva-se 👇" [link LP]</span>
+      </div>
+    </div>
+    <div class="seq-step">
+      <div class="seq-day">D+9<br><small style="font-weight:500;color:var(--muted);">18/09</small></div>
+      <div class="seq-body">
+        <div class="seq-subject">📲 ⏰ Vagas acabando — última chance</div>
+        <div class="seq-desc">[Nome], restam poucas vagas para o ENACAL 2026. Cupom ENACAL2026 válido só até [data]. Não perde essa!</div>
+        <span class="seq-cta">CTA: "Garantir agora 👇" [link LP]</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL: Chatbot WPP -->
+<div class="modal" id="d-chatbot" role="dialog" aria-modal="true" aria-labelledby="t-chatbot">
+  <div class="modal-head">
+    <span class="modal-title" id="t-chatbot">💬 Atendimento WPP por IA</span>
+    <button class="modal-close" onclick="cl('d-chatbot')" aria-label="Fechar">✕</button>
+  </div>
+  <div class="modal-body">
+    <p class="modal-intro">O atendimento via WhatsApp será realizado por <strong>Inteligência Artificial</strong>, sem script fixo. A IA responde dúvidas em tempo real, qualifica o lead e entrega o link de inscrição no Sympla de acordo com o perfil.</p>
+    <div class="script-block">
+      <div class="script-label">Objetivo do atendimento</div>
+      <div class="script-text">Receber o lead que chegou pela LP, tirar dúvidas sobre o evento, identificar se é associado ou público geral, e direcionar para o link correto de inscrição no Sympla.</div>
+    </div>
+    <div class="script-block">
+      <div class="script-label">Contexto alimentado na IA</div>
+      <div class="script-text">• Evento: ENACAL 2026 — 11 a 13 de novembro · Royal Palm Tower · Indaiatuba (SP)<br>• Associado Sindical: R$ 165 (cupom ENACAL2026)<br>• Público Geral: R$ 330<br>• Prazo benefício associado: 30/09/2026 às 23h45<br>• Link Sympla: [configurado no backend]</div>
+    </div>
+    <div class="script-block">
+      <div class="script-label">Capacidades esperadas da IA</div>
+      <div class="script-text">• Responder dúvidas sobre programação, local e logística<br>• Identificar perfil (associado / geral) e informar preço correto<br>• Enviar link Sympla personalizado<br>• Ativar reativação automática se lead não responder em 10 min</div>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL: WPP Reativação -->
+<div class="modal" id="d-reativ" role="dialog" aria-modal="true" aria-labelledby="t-reativ">
+  <div class="modal-head">
+    <span class="modal-title" id="t-reativ">🔄 WPP Reativação — Cadência</span>
+    <button class="modal-close" onclick="cl('d-reativ')" aria-label="Fechar">✕</button>
+  </div>
+  <div class="modal-body">
+    <p class="modal-intro">Acionado após lead acessar LP ou Sympla sem converter. Sequência progressiva de urgência com reinjection para a LP.</p>
+    <div class="msg-card">
+      <div class="msg-head"><span class="msg-time">+2h</span><span class="msg-title">Lembrete suave — tom prestativo</span></div>
+      <div class="msg-text">Oi [nome]! 👋 Notei que você visitou a página do ENACAL 2026 mas ainda não garantiu sua vaga. Ficou alguma dúvida? Me fala que eu te ajudo! 🌾</div>
+    </div>
+    <div class="msg-card">
+      <div class="msg-head"><span class="msg-time">+24h</span><span class="msg-title">Benefício reforçado — tom persuasivo</span></div>
+      <div class="msg-text">[Nome], o ENACAL é o principal evento do setor de calcário agrícola. São 3 dias de conteúdo técnico, network e negócios.<br><br>Associados ABCAL: R$165 com cupom ENACAL2026. Vai perder? 😊<br><br>👉 [Link Sympla]</div>
+    </div>
+    <div class="msg-card">
+      <div class="msg-head"><span class="msg-time">+48h</span><span class="msg-title">Urgência de vagas — escassez</span></div>
+      <div class="msg-text">[Nome], as vagas estão se esgotando! Garanta o seu agora:<br><br>🎟 Assoc. ABCAL: R$165 | Geral: R$330<br>🏷 Cupom: ENACAL2026<br><br>👉 [Link Sympla]</div>
+    </div>
+    <div class="msg-card">
+      <div class="msg-head"><span class="msg-time">30/09</span><span class="msg-title">Deadline final — urgência máxima</span></div>
+      <div class="msg-text">⏰ ÚLTIMO AVISO — ENACAL 2026<br><br>[Nome], hoje é o último dia com condição especial.<br><br>📅 11–13/11 | Royal Palm Tower · Indaiatuba/SP<br>🎟 Assoc.: R$165 | Geral: R$330 (cupom ENACAL2026)<br><br>👉 [Link Sympla] — Nos vemos em novembro! 🌾</div>
+    </div>
+  </div>
+</div>
+
+<!-- HEADER -->
+<div class="hd">
+  <div class="eyebrow">Estratégia de Marketing · ENACAL 2026</div>
+  <h1>Jornada do Lead — Fluxo de Conversão</h1>
+  <div class="meta-row">
+    <span class="meta-pill">📅 11–13 Nov 2026</span>
+    <span class="meta-pill">📍 Royal Palm Tower · Indaiatuba</span>
+    <span class="meta-pill">🎟 Associado R$165 · Geral R$330</span>
+    <span class="meta-pill">🏷 Cupom ENACAL2026</span>
+  </div>
+</div>
+
+<!-- FLOW -->
+<div class="flow">
+
+  <!-- ATIVAÇÃO -->
+  <div class="section-tag">Ativação de Base — Início 05/09</div>
+  <div class="node-row full-w">
+    <div class="node">
+      <div class="date-badge">05/09 → 30/09</div>
+      <div class="node-icon">📧</div>
+      <div class="node-title">Email Ativação</div>
+      <div class="node-sub">Régua de 7 emails · Associados Sindicais</div>
+      <div class="badges">
+        <span class="badge red">E-01 · 05/09</span>
+        <span class="badge red">E-02 · 07/09</span>
+        <span class="badge red">E-03 · 11/09</span>
+        <span class="badge red">E-04 · 15/09</span>
+        <span class="badge red">E-05 · 20/09</span>
+        <span class="badge red">E-06A · 30/09 manhã</span>
+        <span class="badge red">E-06B · 30/09 tarde</span>
+      </div>
+      <button class="open-btn" onclick="open_('d-email')">Ver sequência →</button>
+    </div>
+    <div class="node">
+      <div class="date-badge">09/09 → 18/09</div>
+      <div class="node-icon">📱</div>
+      <div class="node-title">WPP Ativação</div>
+      <div class="node-sub">Broadcast em cadência</div>
+      <div class="badges">
+        <span class="badge red">D0 · 09/09</span>
+        <span class="badge red">D+3 · 12/09</span>
+        <span class="badge red">D+7 · 16/09</span>
+        <span class="badge red">D+9 · 18/09</span>
+      </div>
+      <button class="open-btn" onclick="open_('d-wpp-ativ')">Ver sequência →</button>
+    </div>
+    <div class="node">
+      <div class="node-icon">📣</div>
+      <div class="node-title">Social Orgânico</div>
+      <div class="node-sub">Posts e stories</div>
+      <div class="badges">
+        <span class="badge">Instagram</span>
+        <span class="badge">LinkedIn</span>
+      </div>
+    </div>
+    <div class="node" style="border-style:dashed;opacity:.85;">
+      <div style="font-size:9px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--subtle);margin-bottom:6px;">canal adicional</div>
+      <div class="node-icon">💰</div>
+      <div class="node-title">Mídia Paga</div>
+      <div class="node-sub">Conforme necessidade e budget</div>
+      <div class="badges">
+        <span class="badge">🎯 Meta Ads</span>
+        <span class="badge">🔍 Google Ads</span>
+        <span class="badge">💼 LinkedIn Ads</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Converge todos → LP -->
+  <div class="converge full-w" style="height:40px;">
+    <svg viewBox="0 0 660 40" preserveAspectRatio="none" style="width:100%;height:100%;">
+      <path d="M110,0 C110,28 330,28 330,40" stroke="var(--border)" stroke-width="2" fill="none"/>
+      <path d="M330,0 L330,40" stroke="var(--border)" stroke-width="2" fill="none"/>
+      <path d="M550,0 C550,28 330,28 330,40" stroke="var(--border)" stroke-width="2" fill="none"/>
+    </svg>
+  </div>
+  <div class="arrow-label">todos os canais direcionam para a LP</div>
+  <div class="arrow"><div class="arrow-line"></div><div class="arrow-tip"></div></div>
+  <div class="gap-8"></div>
+
+  <!-- LANDING PAGE -->
+  <div class="section-tag">Conversão</div>
+  <div class="node full-w" style="max-width:440px;">
+    <div class="node-icon">🖥</div>
+    <div class="node-title">Landing Page</div>
+    <div class="node-sub">Apresentação do evento + CTAs de conversão</div>
+    <div class="seg-note">
+      <span class="seg-pill red">Associado · R$165</span>
+      <span class="seg-pill">Geral · R$330</span>
+    </div>
+    <div style="margin-top:12px;">
+      <a href="https://builder.mktlab.app/pages/3640085/preview" target="_blank" rel="noopener" style="font-size:12px;font-weight:600;color:var(--red);text-decoration:none;border-bottom:1px solid var(--red-md);padding-bottom:1px;">↗ abrir LP</a>
+    </div>
+  </div>
+
+  <div class="arrow"><div class="arrow-line"></div><div class="arrow-tip"></div></div>
+
+  <!-- CRM CAPTURE -->
+  <div class="node blue-node full-w" style="max-width:440px;">
+    <div class="node-icon">📋</div>
+    <div class="node-title">Captura de Lead → CRM</div>
+    <div class="node-sub">Formulário de cadastro integrado ao CRM antes do redirecionamento</div>
+    <div style="margin-top:10px;display:flex;gap:8px;justify-content:center;flex-wrap:wrap;">
+      <span class="badge" style="background:var(--blue-bg);color:var(--blue);border:1px solid var(--blue-border);">Nome</span>
+      <span class="badge" style="background:var(--blue-bg);color:var(--blue);border:1px solid var(--blue-border);">Email</span>
+      <span class="badge" style="background:var(--blue-bg);color:var(--blue);border:1px solid var(--blue-border);">WhatsApp</span>
+      <span class="badge" style="background:var(--blue-bg);color:var(--blue);border:1px solid var(--blue-border);">Empresa</span>
+      <span class="badge" style="background:var(--blue-bg);color:var(--blue);border:1px solid var(--blue-border);">Associado Sindical?</span>
+    </div>
+  </div>
+
+  <!-- Fork CRM → 2 paths -->
+  <div class="converge full-w" style="height:36px;max-width:520px;">
+    <svg viewBox="0 0 520 36" preserveAspectRatio="none" style="width:100%;height:100%;">
+      <path d="M260,0 C260,18 140,28 130,36" stroke="var(--border)" stroke-width="2" fill="none"/>
+      <path d="M260,0 C260,18 380,28 390,36" stroke="var(--border)" stroke-width="2" fill="none"/>
+    </svg>
+  </div>
+  <div class="exit-paths full-w" style="max-width:520px;">
+    <div class="exit-col">
+      <span class="exit-path-tag">saída 1 — via chatbot</span>
+      <div class="exit-card">
+        <div class="exit-icon">💬</div>
+        <div class="exit-title">Atendimento WPP por IA</div>
+        <div class="exit-sub">IA qualifica o lead e envia link Sympla personalizado</div>
+        <button class="open-btn" onclick="open_('d-chatbot')">Ver detalhes →</button>
+      </div>
+    </div>
+    <div class="exit-col">
+      <span class="exit-path-tag">saída 2 — botão direto</span>
+      <div class="exit-card dashed">
+        <div class="exit-icon">🔗</div>
+        <div class="exit-title">CTA Direto na LP</div>
+        <div class="exit-sub">Botão "Inscrever-se" vai direto ao Sympla</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Converge → Sympla -->
+  <div class="converge full-w" style="height:36px;max-width:520px;">
+    <svg viewBox="0 0 520 36" preserveAspectRatio="none" style="width:100%;height:100%;">
+      <path d="M130,0 C130,18 260,28 260,36" stroke="var(--border)" stroke-width="2" fill="none"/>
+      <path d="M390,0 C390,18 260,28 260,36" stroke="var(--border)" stroke-width="2" fill="none"/>
+    </svg>
+  </div>
+  <div class="arrow-label red">link inscrição Sympla</div>
+  <div class="arrow red"><div class="arrow-line"></div><div class="arrow-tip"></div></div>
+  <div class="gap-8"></div>
+
+  <!-- SYMPLA -->
+  <div class="node full-w" style="max-width:360px;">
+    <div class="node-icon">🎟</div>
+    <div class="node-title">Sympla</div>
+    <div class="node-sub">Checkout e pagamento da inscrição</div>
+    <div style="margin-top:10px;">
+      <a href="https://www.sympla.com.br/evento/encontro-nacional-dos-produtores-de-calcario-agricola-enacal-2026/3555475" target="_blank" rel="noopener" style="font-size:12px;font-weight:600;color:var(--red);text-decoration:none;border-bottom:1px solid var(--red-md);padding-bottom:1px;">↗ abrir Sympla</a>
+    </div>
+  </div>
+
+  <div class="arrow"><div class="arrow-line"></div><div class="arrow-tip"></div></div>
+
+  <!-- DIAMOND -->
+  <div class="diamond-wrap">
+    <div class="diamond-bg"></div>
+    <div class="diamond-label">
+      <div class="diamond-text">Comprou?</div>
+      <div class="diamond-sub">decisão</div>
+    </div>
+  </div>
+
+  <!-- Fork diamond -->
+  <div class="converge full-w" style="height:44px;">
+    <svg viewBox="0 0 640 44" preserveAspectRatio="none" style="width:100%;height:100%;">
+      <path d="M320,0 C320,12 170,32 155,44" stroke="var(--green)" stroke-width="2" fill="none"/>
+      <path d="M320,0 C320,12 470,32 485,44" stroke="var(--red)" stroke-width="2" fill="none"/>
+    </svg>
+  </div>
+
+  <!-- DECISION SPLIT -->
+  <div class="decision-split full-w">
+
+    <!-- SIM -->
+    <div class="decision-col">
+      <span class="decision-label label-sim">✓ Sim — Convertido</span>
+      <div class="node green-node full-w">
+        <div class="node-icon">✅</div>
+        <div class="node-title">Inscrição Confirmada</div>
+        <div class="node-sub">Confirmação automática via email e WPP</div>
+      </div>
+      <div class="arrow green" style="padding:6px 0;"><div class="arrow-line" style="height:22px;"></div><div class="arrow-tip"></div></div>
+      <div class="node blue-node full-w">
+        <div class="node-icon">🏨</div>
+        <div class="node-title">Hospedagem</div>
+        <div class="node-sub">Direcionamento imediato para reserva no Royal Palm Tower</div>
+        <div style="margin-top:10px;width:100%;">
+          <div class="ob-step">
+            <span class="ob-time blue">imediato</span>
+            <span class="ob-dot blue"></span>
+            <span class="ob-text">Link de reserva com condições especiais para participantes ENACAL</span>
+          </div>
+        </div>
+      </div>
+      <div class="arrow green" style="padding:6px 0;"><div class="arrow-line" style="height:22px;"></div><div class="arrow-tip"></div></div>
+      <div class="node green-node full-w">
+        <div class="node-icon">📆</div>
+        <div class="node-title">Onboarding Pré-Evento</div>
+        <div class="node-sub">Sequência de engajamento até novembro</div>
+        <div style="margin-top:12px;width:100%;">
+          <div class="ob-step">
+            <span class="ob-time">D-14</span>
+            <span class="ob-dot"></span>
+            <span class="ob-text">Agenda e palestrantes confirmados</span>
+          </div>
+          <div class="ob-step">
+            <span class="ob-time">D-7</span>
+            <span class="ob-dot"></span>
+            <span class="ob-text">Lembrete + dicas de preparação</span>
+          </div>
+          <div class="ob-step">
+            <span class="ob-time">D-1</span>
+            <span class="ob-dot"></span>
+            <span class="ob-text">Lembrete final + endereço e horário</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- NÃO -->
+    <div class="decision-col">
+      <span class="decision-label label-nao">✗ Não — Abandono</span>
+      <div class="section-tag" style="margin-bottom:10px;">WPP Reativação</div>
+      <div class="reativ-list full-w">
+        <button class="reativ-step" onclick="open_('d-reativ')">
+          <span class="reativ-time">+2h</span>
+          <span class="reativ-desc">Lembrete suave</span>
+          <span class="reativ-arrow">→</span>
+        </button>
+        <div class="arrow" style="padding:2px 0;"><div class="arrow-line" style="height:12px;"></div><div class="arrow-tip"></div></div>
+        <button class="reativ-step" onclick="open_('d-reativ')">
+          <span class="reativ-time">+24h</span>
+          <span class="reativ-desc">Quebra de objeção</span>
+          <span class="reativ-arrow">→</span>
+        </button>
+        <div class="arrow" style="padding:2px 0;"><div class="arrow-line" style="height:12px;"></div><div class="arrow-tip"></div></div>
+        <button class="reativ-step" onclick="open_('d-reativ')">
+          <span class="reativ-time">+48h</span>
+          <span class="reativ-desc">Urgência — vagas acabando</span>
+          <span class="reativ-arrow">→</span>
+        </button>
+        <div class="arrow" style="padding:2px 0;"><div class="arrow-line" style="height:12px;"></div><div class="arrow-tip"></div></div>
+        <button class="reativ-step" onclick="open_('d-reativ')">
+          <span class="reativ-time">30/09</span>
+          <span class="reativ-desc">Deadline final</span>
+          <span class="reativ-arrow">→</span>
+        </button>
+      </div>
+      <div class="return-block full-w">
+        <div class="return-dashed">
+          <span class="return-text">reinjecta na LP se reagir</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- TRACKING TABLE -->
+  <div class="gap-14"></div>
+  <div class="gap-14"></div>
+  <div style="width:100%;border-top:2px solid var(--border);padding-top:32px;">
+    <div class="section-tag" style="margin-bottom:18px;">Métricas de Acompanhamento</div>
+    <div style="overflow-x:auto;width:100%;">
+      <table class="track-table">
+        <thead>
+          <tr>
+            <th>Canal / Etapa</th>
+            <th>Métrica</th>
+            <th>Frequência</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="track-group">
+            <td rowspan="4">📧 Email</td>
+            <td>Taxa de abertura</td>
+            <td>Por disparo</td>
+          </tr>
+          <tr>
+            <td>Taxa de clique (CTR)</td>
+            <td>Por disparo</td>
+          </tr>
+          <tr>
+            <td>Taxa de descadastro (unsubscribe)</td>
+            <td>Por disparo</td>
+          </tr>
+          <tr>
+            <td>Taxa de conversão email → LP</td>
+            <td>Por disparo</td>
+          </tr>
+          <tr class="track-group">
+            <td rowspan="3">📱 WhatsApp</td>
+            <td>Taxa de entrega</td>
+            <td>Por broadcast</td>
+          </tr>
+          <tr>
+            <td>Taxa de leitura</td>
+            <td>Por broadcast</td>
+          </tr>
+          <tr>
+            <td>Taxa de resposta / engajamento</td>
+            <td>Por broadcast</td>
+          </tr>
+          <tr class="track-group">
+            <td rowspan="3">🖥 Landing Page</td>
+            <td>Taxa de conversão (visita → CRM)</td>
+            <td>Semanal</td>
+          </tr>
+          <tr>
+            <td>Taxa de rejeição (bounce rate)</td>
+            <td>Semanal</td>
+          </tr>
+          <tr>
+            <td>Tempo médio na página</td>
+            <td>Semanal</td>
+          </tr>
+          <tr class="track-group">
+            <td rowspan="3">🎟 Sympla / Checkout</td>
+            <td>Taxa de abandono de checkout</td>
+            <td>Semanal</td>
+          </tr>
+          <tr>
+            <td>Taxa de conversão lead → inscrito</td>
+            <td>Semanal</td>
+          </tr>
+          <tr>
+            <td>Ticket médio (associado vs. geral)</td>
+            <td>Acumulado</td>
+          </tr>
+          <tr class="track-group">
+            <td rowspan="2">🔄 Reativação WPP</td>
+            <td>Taxa de abertura por etapa (+2h / +24h / +48h)</td>
+            <td>Por disparo</td>
+          </tr>
+          <tr>
+            <td>Taxa de recuperação (abandono → compra)</td>
+            <td>Acumulado</td>
+          </tr>
+          <tr class="track-group">
+            <td rowspan="2">💰 Mídia Paga</td>
+            <td>CPL (Custo por Lead)</td>
+            <td>Semanal</td>
+          </tr>
+          <tr>
+            <td>ROAS / Custo por inscrição</td>
+            <td>Semanal</td>
+          </tr>
+          <tr class="track-group">
+            <td rowspan="2">📊 Funil Geral</td>
+            <td>Lead → LP (ativação)</td>
+            <td>Semanal</td>
+          </tr>
+          <tr>
+            <td>LP → Inscrito (conversão final)</td>
+            <td>Semanal</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+</div>
+
+<script>
+function open_(id) {
+  var ov = document.getElementById('overlay');
+  var modal = document.getElementById(id);
+  if (!modal) return;
+  ov.style.display = 'block';
+  requestAnimationFrame(function() {
+    requestAnimationFrame(function() {
+      ov.classList.add('vis');
+      modal.classList.add('open');
+    });
+  });
+  setTimeout(function() {
+    var btn = modal.querySelector('.modal-close');
+    if (btn) btn.focus();
+  }, 80);
+}
+function cl(id) {
+  var modal = document.getElementById(id);
+  var ov = document.getElementById('overlay');
+  if (modal) modal.classList.remove('open');
+  ov.classList.remove('vis');
+  setTimeout(function() { ov.style.display = 'none'; }, 280);
+}
+function closeAll() {
+  document.querySelectorAll('.modal.open').forEach(function(m) { m.classList.remove('open'); });
+  var ov = document.getElementById('overlay');
+  ov.classList.remove('vis');
+  setTimeout(function() { ov.style.display = 'none'; }, 280);
+}
+document.addEventListener('keydown', function(e) { if (e.key === 'Escape') closeAll(); });
+document.querySelectorAll('.modal').forEach(function(m) {
+  m.addEventListener('click', function(e) { e.stopPropagation(); });
+});
+</script>
+
+</body>
+</html>
