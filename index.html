@@ -1,841 +1,423 @@
-<title>ENACAL 2026</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Montserrat:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
-
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Relatório ENACAL 2026</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;900&family=Inter:wght@400;500;600;700&display=swap">
 <style>
-/* ─── TOKENS ────────────────────────────────────────── */
-:root {
-  --bg:          #ffffff;
-  --surface:     #ffffff;
-  --navy:        #244d6e;
-  --navy-dark:   #1a3850;
-  --navy-light:  #e8eff5;
-  --verde:       #5a694f;
-  --verde-mid:   #6d7e60;
-  --verde-dim:   #4a5840;
-  --verde-light: #8aaa78;
-  --text:        #141e28;
-  --text-sec:    #445565;
-  --muted:       #7a8a95;
-  --border:      #dde0dc;
-  --border-soft: #eceeed;
-  --hero-bg:     #121c28;
-
-  --font-display: 'Bebas Neue', 'Arial Narrow', Arial, sans-serif;
-  --font-body:    'Montserrat', system-ui, sans-serif;
-  --r: 5px;
-  --max: 1100px;
-  --sp: clamp(4.5rem, 9vw, 7.5rem) clamp(1.5rem, 5vw, 3rem);
+:root{
+  --bg:#0A0A0A;--surf:#111111;--surf2:#1A1A1A;--brd:#2A2A2A;
+  --fg:#F5F5F5;--muted:#888888;--dim:#444444;
+  --accent:#E8232A;--acc2:#FF3B42;
+  --green:#22C55E;--gbg:#0A2117;--gbrd:#1A5232;
+  --red:#E8232A;--rbg:#2D0808;--rbrd:#5C1010;
+  --blue:#60A5FA;--bbg:#0D1830;--bbrd:#1A3060;
+  --yellow:#FBBF24;--ybg:#1C1408;--ybrd:#78450A;
+  color-scheme:dark;
 }
-
-
-/* ─── RESET ─────────────────────────────────────────── */
+@media(prefers-color-scheme:light){:root:not([data-theme="dark"]){
+  --bg:#F5F5F5;--surf:#FFFFFF;--surf2:#EBEBEB;--brd:#D5D5D5;
+  --fg:#0A0A0A;--muted:#666666;--dim:#AAAAAA;
+  --accent:#E8232A;--acc2:#C41920;
+  --green:#166534;--gbg:#F0FDF4;--gbrd:#BBF7D0;
+  --red:#E8232A;--rbg:#FEF2F2;--rbrd:#FECACA;
+  --blue:#1D4ED8;--bbg:#EFF6FF;--bbrd:#BFDBFE;
+  --yellow:#92400E;--ybg:#FFFBEB;--ybrd:#FDE68A;
+  color-scheme:light;
+}}
+:root[data-theme="light"]{
+  --bg:#F5F5F5;--surf:#FFFFFF;--surf2:#EBEBEB;--brd:#D5D5D5;
+  --fg:#0A0A0A;--muted:#666666;--dim:#AAAAAA;
+  --accent:#E8232A;--acc2:#C41920;
+  --green:#166534;--gbg:#F0FDF4;--gbrd:#BBF7D0;
+  --red:#E8232A;--rbg:#FEF2F2;--rbrd:#FECACA;
+  --blue:#1D4ED8;--bbg:#EFF6FF;--bbrd:#BFDBFE;
+  --yellow:#92400E;--ybg:#FFFBEB;--ybrd:#FDE68A;
+  color-scheme:light;
+}
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-html{scroll-behavior:smooth}
-body{background:var(--bg);color:var(--text);font-family:var(--font-body);font-size:1rem;line-height:1.65;-webkit-font-smoothing:antialiased}
-img{max-width:100%;display:block}
-a{color:inherit;text-decoration:none}
-button{cursor:pointer;font-family:inherit;border:none;background:none}
+body{background:var(--bg);color:var(--fg);font-family:'Inter',system-ui,sans-serif;font-size:14px;line-height:1.65;padding:0 0 64px;max-width:800px;margin-inline:auto}
 
-/* ─── UTILS ──────────────────────────────────────────── */
-.container{max-width:var(--max);margin:0 auto;padding-inline:clamp(1.25rem,4vw,2.5rem)}
-.section{padding:var(--sp)}
-.eyebrow{font-size:.68rem;font-weight:700;letter-spacing:.22em;text-transform:uppercase;color:var(--navy);margin-bottom:.75rem;display:block}
-.divider{width:44px;height:3px;background:var(--navy);margin-bottom:2rem}
-h2{font-family:var(--font-display);font-size:clamp(2.4rem,5vw,3.8rem);line-height:1.05;letter-spacing:.01em;text-wrap:balance;margin-bottom:1.25rem;color:var(--navy)}
-h3{font-family:var(--font-display);font-size:clamp(1.2rem,2.5vw,1.6rem);letter-spacing:.02em;line-height:1.1;margin-bottom:.6rem;color:var(--navy)}
-/* alternância azul / verde nos h2 de seção */
-.about h2         { color: var(--navy) }
-.pillars h2       { color: var(--verde) }
-.schedule h2      { color: var(--navy) }
-.venue h2         { color: var(--verde) }
-.editions h2      { color: var(--navy) }
-.tickets h2       { color: var(--verde) }
-.sponsors h2      { color: var(--navy) }
-/* eyebrow acompanha o h2 */
-.pillars .eyebrow, .venue .eyebrow, .tickets .eyebrow { color: var(--verde-mid) }
-.about .eyebrow, .schedule .eyebrow, .editions .eyebrow, .sponsors .eyebrow { color: var(--navy) }
-/* divider também */
-.pillars .divider, .venue .divider, .tickets .divider { background: var(--verde) }
-.about .divider, .schedule .divider, .editions .divider, .sponsors .divider { background: var(--navy) }
-p{max-width:62ch;color:var(--text-sec)}
+.hero{padding:40px 24px 32px;border-bottom:1px solid var(--brd);margin-bottom:32px}
+.hero-eyebrow{font-size:10px;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:var(--accent);margin-bottom:10px}
+.hero-title{font-family:'Montserrat',sans-serif;font-size:42px;font-weight:900;line-height:1;letter-spacing:-.02em;text-transform:uppercase;color:var(--fg);margin-bottom:8px}
+.hero-sub{font-size:13px;color:var(--muted);max-width:520px;line-height:1.6}
+.hero-meta{display:flex;gap:16px;flex-wrap:wrap;margin-top:18px}
+.hero-tag{font-size:11px;font-weight:600;color:var(--muted);border:1px solid var(--brd);padding:3px 10px;border-radius:20px}
 
-.btn{display:inline-flex;align-items:center;gap:.5rem;padding:.85rem 2rem;border-radius:var(--r);font-family:var(--font-body);font-size:.8rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;transition:all .2s;border:2px solid transparent;cursor:pointer;text-decoration:none}
-.btn-verde{background:var(--verde);color:#fff}
-.btn-verde:hover{background:var(--verde-dim)}
-.btn-navy{background:var(--navy);color:#fff}
-.btn-navy:hover{background:var(--navy-dark)}
-.btn-outline-navy{background:transparent;color:var(--navy);border-color:var(--navy)}
-.btn-outline-navy:hover{background:var(--navy);color:#fff}
-.btn-outline-white{background:transparent;color:#fff;border-color:rgba(255,255,255,.6)}
-.btn-outline-white:hover{background:rgba(255,255,255,.1)}
+.body{padding-inline:24px}
+.section{margin-bottom:36px}
+.sec-title{font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--accent);margin-bottom:14px;display:flex;align-items:center;gap:8px}
+.sec-title::after{content:'';flex:1;height:1px;background:var(--brd)}
 
-/* ─── LOGO ───────────────────────────────────────────── */
-.logo{display:inline-flex;align-items:center;gap:.6rem;font-family:var(--font-display);font-size:1.9rem;letter-spacing:.06em;line-height:1;text-decoration:none}
-.logo-icon{display:flex;align-items:center}
-.logo-text .n{color:#fff}
-.logo-text .a{color:var(--verde-light)}
-.logo-text .c{color:#fff}
-.logo--dark .n,.logo--dark .c{color:var(--navy)}
-.logo--dark .a{color:var(--verde)}
+.kpi-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:10px;margin-bottom:4px}
+.kpi{background:var(--surf);border:1px solid var(--brd);border-radius:10px;padding:14px 16px}
+.kpi-n{font-family:'Montserrat',sans-serif;font-size:36px;font-weight:900;line-height:1;letter-spacing:-.02em}
+.kpi-n.gold{color:var(--accent)}
+.kpi-n.green{color:var(--green)}
+.kpi-n.blue{color:var(--blue)}
+.kpi-n.yellow{color:var(--yellow)}
+.kpi-l{font-size:11px;color:var(--muted);margin-top:4px;line-height:1.4}
+.kpi-note{font-size:9px;color:var(--dim);margin-top:3px}
 
-/* ─── HERO ───────────────────────────────────────────── */
-.hero{position:relative;min-height:100svh;background:var(--hero-bg);overflow:hidden;display:flex;align-items:center}
-#hero-canvas{position:absolute;inset:0;width:100%;height:100%;opacity:.5}
-.hero-body{position:relative;z-index:2;max-width:var(--max);margin:0 auto;padding:clamp(5rem,10vw,9rem) clamp(1.5rem,5vw,3rem) clamp(3rem,6vw,5rem);width:100%}
+.timeline{display:flex;flex-direction:column;gap:0}
+.tl-item{display:grid;grid-template-columns:100px 1fr;gap:16px;padding:14px 0;border-bottom:1px solid var(--brd);position:relative}
+.tl-item:last-child{border-bottom:none}
+.tl-date{font-size:11px;font-weight:700;color:var(--accent);padding-top:2px;white-space:nowrap}
+.tl-title{font-size:13px;font-weight:700;color:var(--fg);margin-bottom:3px}
+.tl-desc{font-size:12px;color:var(--muted);line-height:1.6}
+.tl-badge{display:inline-block;font-size:9px;font-weight:700;padding:2px 7px;border-radius:6px;margin-left:6px;vertical-align:middle;letter-spacing:.06em;text-transform:uppercase}
+.tl-badge.g{background:var(--gbg);color:var(--green);border:1px solid var(--gbrd)}
+.tl-badge.a{background:var(--ybg);color:var(--yellow);border:1px solid var(--ybrd)}
+.tl-badge.b{background:var(--bbg);color:var(--blue);border:1px solid var(--bbrd)}
 
-.hero-tag{display:inline-block;background:rgba(90,105,79,.2);border:1px solid rgba(90,105,79,.4);color:#8aaa78;font-size:.65rem;font-weight:700;letter-spacing:.22em;text-transform:uppercase;padding:.4rem .9rem;border-radius:2px;margin-bottom:2rem}
+.fonte-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px}
+.fonte{background:var(--surf);border:1px solid var(--brd);border-radius:10px;padding:14px 16px}
+.fonte-icon{font-size:20px;margin-bottom:8px}
+.fonte-title{font-size:12px;font-weight:700;margin-bottom:4px}
+.fonte-n{font-family:'Montserrat',sans-serif;font-size:28px;font-weight:900;color:var(--accent);line-height:1}
+.fonte-desc{font-size:11px;color:var(--muted);margin-top:4px;line-height:1.5}
 
-.hero h1{font-family:var(--font-display);font-size:clamp(3.8rem,9.5vw,8.5rem);line-height:.95;letter-spacing:.01em;color:#fff;text-wrap:balance;margin-bottom:1.25rem}
-.hero h1 em{font-style:normal;color:#7a9a6e}
+.criativo-row{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:6px}
+.ctag{font-size:11px;font-weight:600;padding:4px 10px;border-radius:6px;background:var(--surf2);border:1px solid var(--brd);color:var(--muted)}
+.ctag strong{color:var(--accent)}
 
-.hero-sub{font-size:clamp(.9rem,1.4vw,1rem);color:rgba(221,228,224,.65);max-width:48ch;line-height:1.7;margin-bottom:2.5rem}
+.tbl-wrap{overflow-x:auto;border-radius:8px;border:1px solid var(--brd)}
+table{width:100%;border-collapse:collapse;font-size:12px}
+th{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--dim);text-align:left;padding:9px 12px;border-bottom:1px solid var(--brd);background:var(--surf2)}
+td{padding:9px 12px;border-bottom:1px solid var(--brd);color:var(--muted)}
+td:first-child{font-weight:600;color:var(--fg)}
+tr:last-child td{border-bottom:none}
+tr:nth-child(even) td{background:color-mix(in srgb, var(--surf2) 50%, transparent)}
 
-.hero-ctas{display:flex;gap:1rem;flex-wrap:wrap}
+.note-box{background:var(--surf2);border:1px solid var(--brd);border-left:3px solid var(--accent);border-radius:0 8px 8px 0;padding:11px 14px;font-size:12px;color:var(--muted);line-height:1.6;margin-top:10px}
+.note-box strong{color:var(--fg)}
 
-.hero-meta{display:flex;gap:2.5rem;flex-wrap:wrap;margin-top:4.5rem;padding-top:2rem;border-top:1px solid rgba(255,255,255,.08)}
-.hero-meta-item{display:flex;align-items:center;gap:.75rem}
-.hero-meta-icon{width:38px;height:38px;border-radius:50%;background:rgba(90,105,79,.2);border:1px solid rgba(90,105,79,.3);display:flex;align-items:center;justify-content:center;font-size:1.05rem;flex-shrink:0}
-.hero-meta-lbl{font-size:.72rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:rgba(221,228,224,.45);line-height:1.2}
-.hero-meta-val{font-size:.88rem;color:rgba(221,228,224,.85);font-weight:500}
+/* funil compacto */
+.funil-mini{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:0;border:1px solid var(--brd);border-radius:10px;overflow:hidden}
+.funil-mini-step{padding:14px 16px;border-right:1px solid var(--brd);position:relative}
+.funil-mini-step:last-child{border-right:none}
+.funil-mini-n{font-family:'Montserrat',sans-serif;font-size:30px;font-weight:900;line-height:1;letter-spacing:-.02em}
+.funil-mini-label{font-size:11px;font-weight:600;color:var(--fg);margin-top:5px;line-height:1.3}
+.funil-mini-sub{font-size:10px;color:var(--dim);margin-top:3px;line-height:1.4}
+.funil-mini-arrow{position:absolute;right:-1px;top:50%;transform:translateY(-50%);z-index:1;width:12px;height:12px;background:var(--brd);clip-path:polygon(0 0,100% 50%,0 100%)}
 
-.scroll-cue{position:absolute;bottom:2rem;left:50%;transform:translateX(-50%);z-index:3;display:flex;flex-direction:column;align-items:center;gap:.5rem;font-size:.58rem;letter-spacing:.18em;text-transform:uppercase;color:rgba(255,255,255,.3);animation:scrl 2.5s ease-in-out infinite}
-.scroll-cue::after{content:'';width:1px;height:36px;background:linear-gradient(to bottom,rgba(255,255,255,.25),transparent)}
-@keyframes scrl{0%,100%{transform:translateX(-50%) translateY(0)}50%{transform:translateX(-50%) translateY(7px)}}
+/* aprendizados */
+.learn-list{display:flex;flex-direction:column;gap:8px}
+.learn-item{display:flex;gap:12px;align-items:flex-start;background:var(--surf);border:1px solid var(--brd);border-radius:8px;padding:12px 14px}
+.learn-icon{font-size:14px;flex-shrink:0;margin-top:1px}
+.learn-text{font-size:12px;color:var(--muted);line-height:1.6}
+.learn-text strong{color:var(--fg)}
 
-/* ─── STATS ──────────────────────────────────────────── */
-.stats{background:var(--bg);border-top:3px solid var(--navy);border-bottom:1px solid var(--border)}
-.stats-grid{display:grid;grid-template-columns:repeat(4,1fr)}
-@media(max-width:650px){.stats-grid{grid-template-columns:repeat(2,1fr)}}
-.stat{text-align:center;padding:clamp(1.5rem,3vw,2.25rem) 1rem;background:transparent}
-.stat+.stat{border-left:1px solid var(--border)}
-@media(max-width:650px){.stat:nth-child(2n+1){border-left:none}.stat:nth-child(n+3){border-top:1px solid var(--border)}}
-.stat-num{font-family:var(--font-display);font-size:clamp(2.6rem,5vw,4.2rem);color:var(--navy);line-height:1;letter-spacing:.02em}
-.stat-num b{color:var(--verde-mid)}
-.stat-lbl{font-size:.65rem;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);margin-top:.3rem}
-
-/* ─── ABOUT ──────────────────────────────────────────── */
-.about{background:var(--bg)}
-.about-layout{display:grid;grid-template-columns:1fr 1fr;gap:clamp(3rem,6vw,5rem);align-items:start}
-@media(max-width:768px){.about-layout{grid-template-columns:1fr}}
-.about p{margin-bottom:1rem}
-
-.accordion{margin-top:1.5rem;border-top:1px solid var(--border)}
-.accordion-item{border-bottom:1px solid var(--border)}
-.acc-btn{width:100%;text-align:left;display:flex;justify-content:space-between;align-items:center;padding:1rem 0;background:none;font-size:.9rem;font-weight:600;color:var(--text);cursor:pointer;gap:1rem}
-.acc-btn:hover{color:var(--navy)}
-.acc-btn[aria-expanded="true"]{color:var(--navy)}
-.acc-icon{flex-shrink:0;width:22px;height:22px;border:2px solid var(--border);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.95rem;line-height:1;color:var(--muted);transition:transform .25s,border-color .25s}
-.acc-btn[aria-expanded="true"] .acc-icon{transform:rotate(45deg);border-color:var(--navy);color:var(--navy)}
-.acc-body{overflow:hidden;max-height:0;transition:max-height .3s ease}
-.acc-body p{padding-bottom:1rem;font-size:.88rem;color:var(--text-sec);max-width:none}
-
-/* ─── PILLARS ────────────────────────────────────────── */
-.pillars{background:var(--bg)}
-.pillars-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1.25rem;margin-top:2.5rem}
-@media(max-width:900px){.pillars-grid{grid-template-columns:repeat(2,1fr)}}
-@media(max-width:500px){.pillars-grid{grid-template-columns:1fr}}
-.pillar-card{background:var(--bg);border:1px solid var(--border);border-top:3px solid var(--verde);border-radius:var(--r);padding:2rem 1.5rem;display:flex;flex-direction:column;min-height:300px}
-.pillar-num{font-family:var(--font-display);font-size:3.5rem;line-height:1;color:var(--border);margin-bottom:1rem;letter-spacing:.02em}
-.pillar-card h3{color:var(--navy);font-size:1rem;letter-spacing:.03em;margin-bottom:.5rem}
-.pillar-card p{color:var(--text-sec);font-size:.82rem;max-width:none;flex:1;line-height:1.6}
-.pillar-icon{width:36px;height:36px;border-radius:50%;border:1.5px solid var(--verde);color:var(--verde);display:flex;align-items:center;justify-content:center;font-size:1rem;margin-bottom:1.25rem}
-.pillar-footer{margin-top:1.5rem;border-top:1px solid var(--border);padding-top:.75rem;font-size:.65rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
-
-/* ─── SCHEDULE ───────────────────────────────────────── */
-.schedule{background:var(--surface)}
-.schedule h2{color:var(--navy)}
-.schedule .divider+p{color:var(--text-sec)}
-.schedule .divider{background:var(--navy)}
-.schedule .eyebrow{color:var(--verde-mid)}
-.sched-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2rem;margin-top:3rem}
-@media(max-width:768px){.sched-grid{grid-template-columns:1fr}}
-.sched-day{border-top:3px solid var(--navy);padding-top:1.5rem;background:var(--bg);border-radius:var(--r);padding:1.5rem;border:1px solid var(--border);border-top:3px solid var(--navy)}
-.sched-dayname{font-family:var(--font-display);font-size:1.5rem;color:var(--navy);letter-spacing:.03em;margin-bottom:.2rem}
-.sched-date{font-size:.65rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);margin-bottom:1.75rem}
-.sched-item{margin-bottom:1.25rem}
-.sched-time{font-size:.65rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--verde-mid);margin-bottom:.2rem}
-.sched-title{font-size:.88rem;font-weight:600;color:var(--text);line-height:1.35}
-.sched-note{font-size:.76rem;color:var(--muted);margin-top:.15rem}
-.sched-sep{height:1px;background:var(--border-soft);margin:.75rem 0}
-
-/* ─── VENUE ──────────────────────────────────────────── */
-.venue{background:var(--bg)}
-.venue-layout{display:grid;grid-template-columns:1fr 1fr;gap:clamp(3rem,6vw,5rem);align-items:center}
-@media(max-width:768px){.venue-layout{grid-template-columns:1fr}}
-.venue-visual{aspect-ratio:4/3;background:var(--navy-dark);border-radius:var(--r);overflow:hidden;position:relative;display:flex;align-items:center;justify-content:center}
-.venue-visual canvas{position:absolute;inset:0;width:100%;height:100%}
-.venue-label{position:relative;z-index:1;font-family:var(--font-display);font-size:1.4rem;color:#fff;letter-spacing:.06em;text-align:center;padding:1rem}
-.venue-label span{display:block;font-family:var(--font-body);font-size:.75rem;font-weight:500;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.5);margin-top:.25rem}
-.venue-features{display:flex;flex-direction:column;gap:.75rem;margin-top:2rem}
-.venue-feat{display:flex;gap:1rem;align-items:flex-start;padding:.9rem 1.1rem;background:var(--surface);border-radius:var(--r);border-left:3px solid var(--verde)}
-.venue-feat-icon{font-size:1.15rem;flex-shrink:0;margin-top:.1rem}
-.venue-feat-title{font-size:.82rem;font-weight:700;color:var(--navy);margin-bottom:.1rem}
-.venue-feat-desc{font-size:.78rem;color:var(--muted);line-height:1.5}
-
-/* ─── CAROUSEL ───────────────────────────────────────── */
-.editions{background:var(--surface)}
-.carousel-wrap{position:relative;overflow:hidden;border-radius:var(--r);margin-top:2.5rem}
-.carousel-track{display:flex;transition:transform .45s cubic-bezier(.25,.46,.45,.94);will-change:transform}
-.carousel-slide{min-width:100%;position:relative;aspect-ratio:16/7;overflow:hidden}
-.carousel-slide canvas{position:absolute;inset:0;width:100%;height:100%}
-.carousel-cap{position:absolute;bottom:0;left:0;right:0;padding:2rem 2.5rem;background:linear-gradient(to top,rgba(18,28,40,.9) 0%,transparent 100%);z-index:1}
-.carousel-cap-year{font-family:var(--font-display);font-size:2.2rem;color:#fff;letter-spacing:.04em;line-height:1;margin-bottom:.2rem}
-.carousel-cap-info{font-size:.78rem;color:rgba(255,255,255,.6)}
-.car-nav{position:absolute;top:50%;transform:translateY(-50%);z-index:2;background:rgba(36,77,110,.75);color:#fff;width:42px;height:42px;border-radius:50%;font-size:1rem;display:flex;align-items:center;justify-content:center;transition:background .2s}
-.car-nav:hover{background:var(--verde)}
-.car-nav.prev{left:1rem}
-.car-nav.next{right:1rem}
-.car-dots{display:flex;justify-content:center;gap:.5rem;margin-top:1.25rem}
-.car-dot{width:7px;height:7px;border-radius:50%;background:var(--border);border:none;cursor:pointer;transition:background .2s,transform .2s}
-.car-dot.active{background:var(--verde);transform:scale(1.4)}
-
-/* ─── TICKETS ────────────────────────────────────────── */
-.tickets{background:var(--bg)}
-.tickets-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;margin-top:2.5rem}
-@media(max-width:600px){.tickets-grid{grid-template-columns:1fr}}
-.ticket{border-radius:var(--r);padding:2rem 2rem 2.5rem;display:flex;flex-direction:column;border:1px solid var(--border);background:var(--surface)}
-.ticket.featured{background:var(--navy-light);border-color:var(--navy);border-width:2px}
-.ticket-badge{display:inline-block;font-size:.6rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase;padding:.3rem .7rem;border-radius:2px;margin-bottom:1.25rem;background:var(--navy-light);color:var(--navy)}
-.ticket.featured .ticket-badge{background:rgba(36,77,110,.12);color:var(--navy)}
-.ticket-name{font-family:var(--font-display);font-size:1.4rem;color:var(--navy);margin-bottom:.25rem;letter-spacing:.03em}
-.ticket.featured .ticket-name{color:var(--navy)}
-.ticket-price{font-family:var(--font-display);font-size:3.4rem;line-height:1;color:var(--navy);letter-spacing:.02em;margin-bottom:.2rem}
-.ticket.featured .ticket-price{color:var(--navy)}
-.ticket-price-note{font-size:.72rem;color:var(--muted);margin-bottom:1.5rem}
-.ticket.featured .ticket-price-note{color:var(--muted)}
-.ticket-details{flex:1}
-.ticket-detail{display:flex;align-items:center;gap:.5rem;font-size:.8rem;color:var(--text-sec);margin-bottom:.45rem}
-.ticket.featured .ticket-detail{color:var(--text-sec)}
-.ticket-detail::before{content:'';width:5px;height:5px;background:var(--navy);border-radius:50%;flex-shrink:0}
-.ticket.featured .ticket-detail::before{background:var(--navy)}
-.ticket-period{font-size:.68rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin:1.25rem 0 .75rem}
-.ticket.featured .ticket-period{color:var(--muted)}
-.ticket-cta{width:100%;margin-top:1.5rem;padding:.9rem;border-radius:var(--r);font-family:var(--font-body);font-size:.76rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;text-align:center;cursor:pointer;transition:all .2s;display:block;text-decoration:none;border:2px solid transparent}
-.ticket.featured .ticket-cta{background:var(--navy);color:#fff;border-color:var(--navy)}
-.ticket.featured .ticket-cta:hover{background:var(--navy-dark)}
-.ticket:not(.featured) .ticket-cta{background:transparent;color:var(--navy);border-color:var(--navy)}
-.ticket:not(.featured) .ticket-cta:hover{background:var(--navy);color:#fff}
-.ticket-restrict{display:flex;align-items:center;gap:.4rem;font-size:.7rem;color:var(--muted);margin-top:.75rem}
-.ticket.featured .ticket-restrict{color:var(--muted)}
-
-/* ─── SPONSORS ───────────────────────────────────────── */
-.sponsors{background:var(--surface)}
-.sponsors-note{font-size:.88rem;color:var(--muted);margin-bottom:3rem}
-.sp-group{margin-bottom:2.5rem}
-.sp-label{font-size:.62rem;font-weight:700;letter-spacing:.22em;text-transform:uppercase;color:var(--muted);margin-bottom:1.25rem;display:block}
-.sp-logos{display:flex;align-items:center;gap:1.5rem;flex-wrap:wrap}
-.sp-slot{height:52px;border-radius:var(--r);background:var(--border-soft);display:flex;align-items:center;justify-content:center;padding:0 1.75rem;font-size:.65rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
-.sp-slot.master{height:64px;min-width:150px}
-
-/* ─── CONTACT ────────────────────────────────────────── */
-.contact-band{background:var(--navy);padding:clamp(3rem,6vw,5rem) clamp(1.5rem,5vw,3rem);text-align:center}
-.contact-band h2{color:#fff;margin-bottom:.75rem}
-.contact-band p{color:rgba(255,255,255,.72);margin:0 auto 2.25rem}
-
-/* ─── FOOTER ─────────────────────────────────────────── */
-footer{background:#0e1822;padding:2rem clamp(1.5rem,5vw,3rem)}
-.footer-inner{max-width:var(--max);margin:0 auto;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem}
-.footer-logo{font-family:var(--font-display);font-size:1.5rem;letter-spacing:.06em;color:rgba(255,255,255,.5)}
-.footer-logo b{color:#7a9a6e}
-.footer-meta{font-size:.72rem;line-height:1.7;color:rgba(255,255,255,.35)}
-
-@media(prefers-reduced-motion:reduce){*{animation-duration:.01ms!important;transition-duration:.01ms!important}}
+@media(max-width:480px){
+  .hero-title{font-size:30px}
+  .kpi-grid{grid-template-columns:1fr 1fr}
+  .tl-item{grid-template-columns:1fr;gap:4px}
+  .tl-date{font-size:10px}
+  .funil-mini{grid-template-columns:1fr 1fr}
+}
 </style>
+</head>
+<body>
 
-<!-- ════════ BODY ════════ -->
-
-<!-- HERO -->
-<section class="hero" aria-label="Abertura">
-  <canvas id="hero-canvas" aria-hidden="true"></canvas>
-  <div class="hero-body">
-    <div class="logo" style="margin-bottom:3rem">
-      <svg width="36" height="32" viewBox="0 0 36 32" fill="none" aria-hidden="true">
-        <path d="M18 1 L2 31 H9 L18 13 L27 31 H34 Z" fill="#5a694f"/>
-        <path d="M18 18 L13.5 27 H22.5 Z" fill="#121c28"/>
-        <line x1="18" y1="31" x2="18" y2="32" stroke="#5a694f" stroke-width="0"/>
-      </svg>
-      <span style="font-family:var(--font-display);font-size:2rem;letter-spacing:.06em;line-height:1">
-        <span style="color:#fff">EN</span><span style="color:#7a9a6e">A</span><span style="color:#fff">CAL</span>
-      </span>
-    </div>
-
-    <div class="hero-tag">Encontro Nacional dos Produtores de Calcário Agrícola</div>
-
-    <h1>TRÊS DIAS COM<br><em>QUEM DECIDE O SETOR.</em></h1>
-    <p class="hero-sub">Você passa três dias ao lado de quem compra, expande e decide no setor. Conteúdo direto — finanças, vendas, liderança, IA — sem slide vazio. Novembro de 2026 · Indaiatuba (SP).</p>
-
-    <div class="hero-ctas">
-      <a href="https://www.sympla.com.br/evento/encontro-nacional-dos-produtores-de-calcario-agricola-enacal-2026/2847998" target="_blank" rel="noopener" class="btn btn-navy">Quero minha vaga</a>
-      <a href="#programa" class="btn btn-outline-white">Ver programação</a>
-    </div>
-
-    <div class="hero-meta">
-      <div class="hero-meta-item">
-        <div class="hero-meta-icon">📅</div>
-        <div>
-          <div class="hero-meta-lbl">Data</div>
-          <div class="hero-meta-val">11 a 13 de novembro de 2026</div>
-        </div>
-      </div>
-      <div class="hero-meta-item">
-        <div class="hero-meta-icon">📍</div>
-        <div>
-          <div class="hero-meta-lbl">Local</div>
-          <div class="hero-meta-val">Royal Palm Tower · Indaiatuba, SP</div>
-        </div>
-      </div>
-      <div class="hero-meta-item">
-        <div class="hero-meta-icon">🎯</div>
-        <div>
-          <div class="hero-meta-lbl">Tema 2026</div>
-          <div class="hero-meta-val">A produtividade começa na base</div>
-        </div>
-      </div>
+<div class="hero">
+  <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;margin-bottom:14px">
+    <div class="hero-eyebrow" style="margin-bottom:0">Relatório de Marketing</div>
+    <div style="display:flex;align-items:center;gap:6px">
+      <span style="font-family:'Montserrat',sans-serif;font-size:11px;font-weight:700;color:var(--muted);letter-spacing:.08em;text-transform:uppercase">V4 Carvalho</span>
     </div>
   </div>
-  <div class="scroll-cue" aria-hidden="true">rolar</div>
-</section>
+  <div class="hero-title">ENACAL 2026</div>
+  <div class="hero-sub">Geração de leads, ativação via WhatsApp e resultado de conversões. Encontro Nacional dos Produtores de Calcário Agrícola — 11 a 13 de novembro de 2026, Royal Palm Tower, Indaiatuba SP.</div>
+  <div class="hero-meta">
+    <span class="hero-tag">nov/2026</span>
+    <span class="hero-tag">Meta Ads</span>
+    <span class="hero-tag">Funil de conversão</span>
+  </div>
+</div>
 
-<!-- STATS -->
-<div class="stats" role="region" aria-label="Números do evento">
-  <div class="stats-grid">
-    <div class="stat">
-      <div class="stat-num"><b>+200</b></div>
-      <div class="stat-lbl">Decisores reunidos</div>
+<div class="body">
+
+<!-- CRESCIMENTO DE BASE -->
+<div class="section">
+  <div class="sec-title">Crescimento da base</div>
+  <div class="kpi-grid" style="margin-bottom:12px">
+    <div class="kpi" style="border-color:var(--dim)">
+      <div class="kpi-n" style="color:var(--dim)">221</div>
+      <div class="kpi-l" style="color:var(--dim)">Base herdada</div>
+      <div class="kpi-note">100 ABRACAL + 121 ENACAL 2017</div>
     </div>
-    <div class="stat">
-      <div class="stat-num"><b>+50</b>%</div>
-      <div class="stat-lbl">C-Level e diretores</div>
+    <div class="kpi" style="border-color:var(--accent)">
+      <div class="kpi-n gold">+43</div>
+      <div class="kpi-l">Novos leads 2026</div>
+      <div class="kpi-note">Meta Ads + orgânico</div>
     </div>
-    <div class="stat">
-      <div class="stat-num"><b>4</b></div>
-      <div class="stat-lbl">Pilares que movem resultado</div>
+    <div class="kpi" style="border-color:var(--green)">
+      <div class="kpi-n green">+174</div>
+      <div class="kpi-l">Participantes ENACAL 2026</div>
+      <div class="kpi-note">Novos contatos qualificados</div>
     </div>
-    <div class="stat">
-      <div class="stat-num"><b>32</b></div>
-      <div class="stat-lbl">Anos de ENACAL · 2026 é a maior</div>
+    <div class="kpi" style="background:color-mix(in srgb,var(--gbg) 60%,var(--surf));border-color:var(--gbrd)">
+      <div class="kpi-n green">438+</div>
+      <div class="kpi-l"><strong style="color:var(--fg)">Base para o próximo evento</strong></div>
+      <div class="kpi-note">2× maior que a base inicial</div>
+    </div>
+  </div>
+  <div class="kpi-grid" style="margin-bottom:12px">
+    <div class="kpi" style="border-color:var(--dim)">
+      <div class="kpi-n yellow" style="font-size:28px">56</div>
+      <div class="kpi-l" style="color:var(--dim)">WPP ativo (base 2017)</div>
+      <div class="kpi-note">Dos 221 históricos</div>
+    </div>
+    <div class="kpi" style="border-color:var(--yellow)">
+      <div class="kpi-n yellow" style="font-size:28px">99+</div>
+      <div class="kpi-l">Base WPP atual</div>
+      <div class="kpi-note">+43 novos leads com WPP</div>
+    </div>
+  </div>
+  <div class="note-box">
+    A edição 2026 dobrou a base de contatos qualificados do setor. Para o próximo evento, a operação de ativação parte de uma base <strong>2× maior</strong> — com histórico de engajamento, participação confirmada e perfil de decisor validado. A base de WhatsApp também cresceu: de 56 para mais de 99 contatos com WPP ativo.
+  </div>
+</div>
+
+<!-- FONTES -->
+<div class="section">
+  <div class="sec-title">Fontes de captação — leads 2026</div>
+  <div class="fonte-grid">
+    <div class="fonte">
+      <div class="fonte-icon">📋</div>
+      <div class="fonte-title">Base histórica</div>
+      <div class="fonte-n">221</div>
+      <div class="fonte-desc"><strong>100</strong> da base ABRACAL + <strong>121</strong> da lista ENACAL 2017 (sem duplicatas). Dos 221, apenas <strong>56 com WPP</strong> ativo.</div>
+    </div>
+    <div class="fonte">
+      <div class="fonte-icon">📱</div>
+      <div class="fonte-title">Meta Ads — Pago</div>
+      <div class="fonte-n">28</div>
+      <div class="fonte-desc">Leads com UTM rastreado via campanha <strong>enacal2026_lead</strong> no Facebook e Instagram. Criativos: 4 Pilares, Palestrante Fonseca e retargeting.</div>
+    </div>
+    <div class="fonte">
+      <div class="fonte-icon">🌱</div>
+      <div class="fonte-title">Orgânico</div>
+      <div class="fonte-n">15</div>
+      <div class="fonte-desc">Leads sem UTM rastreado — indicados, diretos ou via WPP inbound. Setor de calcário, mineração e fornecedores do agro.</div>
+    </div>
+  </div>
+  <div class="note-box" style="margin-top:10px">
+    <strong>Criativos identificados via UTM:</strong> ad01_4pilares (maioria), ad04_palestrante_fonseca, rmkt_duvida_whatsapp. Período de captação: set–nov 2026.
+  </div>
+</div>
+
+<!-- FUNIL MKT E CRM -->
+<div class="section">
+  <div class="sec-title">Funil de Mkt e CRM</div>
+  <div class="funil-mini">
+    <div class="funil-mini-step">
+      <div class="funil-mini-n" style="color:var(--dim)">264</div>
+      <div class="funil-mini-label">Base disponível</div>
+      <div class="funil-mini-sub">221 histórica + 43 novos leads</div>
+    </div>
+    <div class="funil-mini-step">
+      <div class="funil-mini-n" style="color:var(--accent)">43</div>
+      <div class="funil-mini-label">CRM qualificado</div>
+      <div class="funil-mini-sub">Leads rastreados e ativados</div>
+    </div>
+    <div class="funil-mini-step">
+      <div class="funil-mini-n" style="color:var(--green)">R$32k</div>
+      <div class="funil-mini-label">Receita gerada</div>
+      <div class="funil-mini-sub">201 ingressos aprovados</div>
+    </div>
+    <div class="funil-mini-step" style="background:color-mix(in srgb,var(--gbg) 50%,var(--surf))">
+      <div class="funil-mini-n" style="color:var(--green)">438+</div>
+      <div class="funil-mini-label">Base 2027</div>
+      <div class="funil-mini-sub">Legado para o próximo evento</div>
     </div>
   </div>
 </div>
 
-<!-- ABOUT -->
-<section class="about section" id="sobre">
-  <div class="container">
-    <div class="about-layout">
-      <div>
-        <span class="eyebrow">O Evento</span>
-        <div class="divider"></div>
-        <h2>O ENACAL sempre foi o encontro do setor. Em 2026, vira também o encontro dos negócios.</h2>
-        <p>Por três décadas, o ENACAL reuniu quem produz calcário. A partir de 2026, reúne também quem dirige, vende e decide.</p>
-        <p>O setor tem palco técnico há muito tempo. Agora ganha um palco estratégico.</p>
-        <a class="btn btn-outline-navy" href="#ingresso" style="margin-top:1.75rem">Garantir minha vaga</a>
-      </div>
-      <div>
-        <p style="font-size:.85rem;font-weight:600;color:var(--verde);margin-bottom:1rem;letter-spacing:.05em">O QUE VOCÊ LEVA PARA O SEU NEGÓCIO</p>
-        <div class="accordion" id="acc">
-          <div class="accordion-item">
-            <button class="acc-btn" aria-expanded="false" aria-controls="acc-1">
-              Inteligência Artificial
-              <span class="acc-icon" aria-hidden="true">+</span>
-            </button>
-            <div class="acc-body" id="acc-1" role="region">
-              <p>A IA já está no campo. A questão é se você vai usá-la antes ou depois dos seus concorrentes. Veja como ela está entrando na operação industrial e no comercial do agronegócio — e o que fazer agora.</p>
-            </div>
-          </div>
-          <div class="accordion-item">
-            <button class="acc-btn" aria-expanded="false" aria-controls="acc-2">
-              Marketing &amp; Posicionamento
-              <span class="acc-icon" aria-hidden="true">+</span>
-            </button>
-            <div class="acc-body" id="acc-2" role="region">
-              <p>Seu cliente já compra de alguém. Como fazer sua marca ser a referência que ele lembra primeiro — e a que ele não troca por preço.</p>
-            </div>
-          </div>
-          <div class="accordion-item">
-            <button class="acc-btn" aria-expanded="false" aria-controls="acc-3">
-              Gestão &amp; Eficiência Operacional
-              <span class="acc-icon" aria-hidden="true">+</span>
-            </button>
-            <div class="acc-body" id="acc-3" role="region">
-              <p>O que separa a mineradora que cresce da que sobrevive? Gestão. Veja onde as operações mais eficientes do setor estão ganhando — e o que dá para replicar na sua.</p>
-            </div>
-          </div>
-          <div class="accordion-item">
-            <button class="acc-btn" aria-expanded="false" aria-controls="acc-4">
-              Vendas &amp; Resultado Comercial
-              <span class="acc-icon" aria-hidden="true">+</span>
-            </button>
-            <div class="acc-body" id="acc-4" role="region">
-              <p>Toneladas vendem por preço. Receita vem de relacionamento, posicionamento e processo comercial. Como construir um time de vendas que fecha mais — sem depender de desconto.</p>
-            </div>
-          </div>
-          <div class="accordion-item">
-            <button class="acc-btn" aria-expanded="false" aria-controls="acc-5">
-              Produtividade &amp; Alta Performance
-              <span class="acc-icon" aria-hidden="true">+</span>
-            </button>
-            <div class="acc-body" id="acc-5" role="region">
-              <p>Você pode ter a melhor operação do setor. Sem a equipe certa, vai entregar metade do resultado. Como formar time de alta performance e construir a cultura que sustenta o crescimento.</p>
-            </div>
-          </div>
-          <div class="accordion-item">
-            <button class="acc-btn" aria-expanded="false" aria-controls="acc-6">
-              Inovação &amp; Novos Mercados
-              <span class="acc-icon" aria-hidden="true">+</span>
-            </button>
-            <div class="acc-body" id="acc-6" role="region">
-              <p>O mercado de corretivos está mudando. Novos produtos, novos compradores, novos canais. Quem enxergar primeiro vai crescer. Quem esperar vai correr atrás.</p>
-            </div>
-          </div>
-        </div>
+<!-- CRONOLOGIA DE AÇÕES -->
+<div class="section">
+  <div class="sec-title">Cronologia de ações</div>
+  <div class="timeline">
+    <div class="tl-item">
+      <div class="tl-date">Set 2026</div>
+      <div class="tl-body">
+        <div class="tl-title">Início da captação de leads <span class="tl-badge b">Meta Ads</span></div>
+        <div class="tl-desc">Campanha <em>enacal2026_lead</em> no ar. Primeiros leads chegam via formulário — empresas do setor de calcário, mineração e agro.</div>
       </div>
     </div>
-  </div>
-</section>
-
-<!-- PILLARS -->
-<section class="pillars section" id="pilares">
-  <div class="container">
-    <span class="eyebrow">Conteúdo</span>
-    <div class="divider"></div>
-    <h2>4 Conversas que valem a viagem</h2>
-    <p>Quatro especialistas. Uma palestra cada. Sem enrolação — direto ao que impacta operação e resultado. Você sai com algo para aplicar na semana seguinte.</p>
-    <div class="pillars-grid">
-      <div class="pillar-card">
-        <div class="pillar-icon">💰</div>
-        <div class="pillar-num">01</div>
-        <h3>Finanças, Economia &amp; Estratégia</h3>
-        <p>Crescer sem se endividar. Como estruturar a empresa financeiramente para capturar oportunidades do setor sem comprometer a operação.</p>
-        <div class="pillar-footer">Conteudista a ser anunciado</div>
-      </div>
-      <div class="pillar-card">
-        <div class="pillar-icon">📣</div>
-        <div class="pillar-num">02</div>
-        <h3>Marketing, Vendas &amp; Posicionamento</h3>
-        <p>Como fazer sua marca ser a referência que o cliente lembra primeiro — e a que ele não troca por preço.</p>
-        <div class="pillar-footer">Conteudista a ser anunciado</div>
-      </div>
-      <div class="pillar-card">
-        <div class="pillar-icon">🤝</div>
-        <div class="pillar-num">03</div>
-        <h3>Liderança, Pessoas &amp; Cultura</h3>
-        <p>Você pode ter a melhor operação do setor. Sem a equipe certa, vai entregar metade do resultado. Como mudar isso.</p>
-        <div class="pillar-footer">Conteudista a ser anunciado</div>
-      </div>
-      <div class="pillar-card">
-        <div class="pillar-icon">⚡</div>
-        <div class="pillar-num">04</div>
-        <h3>Inovação, Tecnologia &amp; IA</h3>
-        <p>A IA já está no campo. A pergunta é se você vai usá-la antes ou depois da concorrência.</p>
-        <div class="pillar-footer">Conteudista a ser anunciado</div>
+    <div class="tl-item">
+      <div class="tl-date">Out 2026</div>
+      <div class="tl-body">
+        <div class="tl-title">Volume de leads cresce via Meta <span class="tl-badge b">paid social</span></div>
+        <div class="tl-desc">Leads do setor entram pela campanha. Criativos ad01_4pilares e ad04_palestrante_fonseca lideram captação.</div>
       </div>
     </div>
-  </div>
-</section>
-
-<!-- SCHEDULE -->
-<section class="schedule section" id="programa">
-  <div class="container">
-    <span class="eyebrow">Programação</span>
-    <div class="divider"></div>
-    <h2>Três dias. O que acontece em cada um.</h2>
-    <div class="sched-grid">
-      <div class="sched-day">
-        <div class="sched-dayname">Quarta-feira</div>
-        <div class="sched-date">11 de novembro de 2026</div>
-        <div class="sched-item">
-          <div class="sched-time">Tarde</div>
-          <div class="sched-title">Credenciamento</div>
-          <div class="sched-note">Check-in e retirada de materiais</div>
-        </div>
-        <div class="sched-sep"></div>
-        <div class="sched-item">
-          <div class="sched-time">Noite</div>
-          <div class="sched-title">Happy Hour de Abertura</div>
-          <div class="sched-note">Networking e abertura oficial do evento</div>
-        </div>
-      </div>
-      <div class="sched-day">
-        <div class="sched-dayname">Quinta-feira</div>
-        <div class="sched-date">12 de novembro de 2026</div>
-        <div class="sched-item">
-          <div class="sched-time">10h00 – 11h00</div>
-          <div class="sched-title">Pilar 01 — Finanças, Economia &amp; Estratégia</div>
-          <div class="sched-note">Coffee break às 10h45</div>
-        </div>
-        <div class="sched-sep"></div>
-        <div class="sched-item">
-          <div class="sched-time">14h00 – 15h00</div>
-          <div class="sched-title">Pilar 02 — Marketing, Vendas &amp; Posicionamento</div>
-        </div>
-        <div class="sched-sep"></div>
-        <div class="sched-item">
-          <div class="sched-time">16h30 – 17h30</div>
-          <div class="sched-title">Pilar 03 — Liderança, Pessoas &amp; Cultura</div>
-        </div>
-      </div>
-      <div class="sched-day">
-        <div class="sched-dayname">Sexta-feira</div>
-        <div class="sched-date">13 de novembro de 2026</div>
-        <div class="sched-item">
-          <div class="sched-time">10h00 – 11h30</div>
-          <div class="sched-title">Pilar 04 — Inovação, Tecnologia &amp; IA</div>
-          <div class="sched-note">Coffee break às 10h45</div>
-        </div>
-        <div class="sched-sep"></div>
-        <div class="sched-item">
-          <div class="sched-time">11h30</div>
-          <div class="sched-title">Encerramento</div>
-          <div class="sched-note">Sessão de networking e despedida</div>
-        </div>
+    <div class="tl-item">
+      <div class="tl-date">20 out</div>
+      <div class="tl-body">
+        <div class="tl-title">1º disparo WPP <span class="tl-badge a">WhatsApp</span></div>
+        <div class="tl-desc">Primeiro contato ativo com leads qualificados via WhatsApp.</div>
       </div>
     </div>
-    <p style="margin-top:2.5rem;font-size:.76rem;color:rgba(255,255,255,.3);max-width:none">
-      * Programação sujeita à confirmação final pelos conteudistas. Horários indicados como referência.
-    </p>
-  </div>
-</section>
-
-<!-- VENUE -->
-<section class="venue section" id="local">
-  <div class="container">
-    <div class="venue-layout">
-      <div>
-        <span class="eyebrow">Local</span>
-        <div class="divider"></div>
-        <h2>Royal Palm Tower</h2>
-        <p>Indaiatuba (SP). O ambiente foi escolhido para combinar com o nível do encontro — palco com produção broadcast, espaços de networking qualificado e estrutura para quem viaja de longe.</p>
-        <div class="venue-features">
-          <div class="venue-feat">
-            <div class="venue-feat-icon">🎬</div>
-            <div>
-              <div class="venue-feat-title">Palco Principal</div>
-              <div class="venue-feat-desc">Produção de alto nível. O conteúdo do palco vira vídeo — você sai com material que pode usar durante o ano.</div>
-            </div>
-          </div>
-          <div class="venue-feat">
-            <div class="venue-feat-icon">☕</div>
-            <div>
-              <div class="venue-feat-title">Coffee Lounge</div>
-              <div class="venue-feat-desc">Os intervalos são parte do evento. É onde as conversas mais importantes acontecem — sem agenda, sem pressa.</div>
-            </div>
-          </div>
-          <div class="venue-feat">
-            <div class="venue-feat-icon">🤝</div>
-            <div>
-              <div class="venue-feat-title">Lounge Executivo</div>
-              <div class="venue-feat-desc">Sala reservada para reuniões bilaterais entre diretores. Networking com propósito — não só troca de cartão.</div>
-            </div>
-          </div>
-          <div class="venue-feat">
-            <div class="venue-feat-icon">⚡</div>
-            <div>
-              <div class="venue-feat-title">Arena de Inovação</div>
-              <div class="venue-feat-desc">Veja tecnologia aplicada ao setor funcionando ao vivo. Sem slide de PowerPoint — só demonstração real.</div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="venue-visual">
-        <canvas id="venue-canvas" aria-hidden="true"></canvas>
-        <div class="venue-label">
-          Royal Palm Tower
-          <span>Indaiatuba · São Paulo</span>
-        </div>
+    <div class="tl-item">
+      <div class="tl-date">3 nov</div>
+      <div class="tl-body">
+        <div class="tl-title">2º disparo WPP — 8 dias pro evento <span class="tl-badge a">WhatsApp</span></div>
+        <div class="tl-desc">Follow-up com novos leads e reativação de quem não respondeu.</div>
       </div>
     </div>
-  </div>
-</section>
-
-<!-- PAST EDITIONS -->
-<section class="editions section" id="edicoes">
-  <div class="container">
-    <span class="eyebrow">Histórico</span>
-    <div class="divider"></div>
-    <h2>32 anos. O setor que foi, voltou. Sempre.</h2>
-    <p>Itinerante pelos polos de calcário do Brasil — cidade diferente a cada edição, mesma audiência, mesmo nível de curadoria. Se voltam todo ano, é porque vale.</p>
-  </div>
-  <div class="container" style="margin-top:0">
-    <div class="carousel-wrap" id="carousel">
-      <div class="carousel-track" id="car-track">
-        <!-- slides injected by JS -->
-      </div>
-      <button class="car-nav prev" id="car-prev" aria-label="Anterior">&#8592;</button>
-      <button class="car-nav next" id="car-next" aria-label="Próxima">&#8594;</button>
-    </div>
-    <div class="car-dots" id="car-dots" role="tablist" aria-label="Edições"></div>
-  </div>
-</section>
-
-<!-- TICKETS -->
-<section class="tickets section" id="ingresso">
-  <div class="container">
-    <span class="eyebrow">Ingressos</span>
-    <div class="divider"></div>
-    <h2>Em 2025, metade das vagas foram antes do evento. Em 2026, não espere.</h2>
-    <p>A demanda cresce a cada edição. O 1º Lote para associados tem 90 vagas — quando fecharem, fecharam.</p>
-    <div class="tickets-grid">
-      <!-- Associado Sindical — destaque -->
-      <div class="ticket featured">
-        <span class="ticket-badge">1º Lote · Exclusivo</span>
-        <div class="ticket-name">Associado Sindical</div>
-        <div class="ticket-price">R$165</div>
-        <div class="ticket-price-note">por participante — exclusivo para associados</div>
-        <div class="ticket-details">
-          <div class="ticket-detail">90 ingressos disponíveis</div>
-          <div class="ticket-detail">Acesso completo aos 3 dias</div>
-          <div class="ticket-detail">Happy hour de abertura incluso</div>
-          <div class="ticket-detail">Todos os coffee breaks inclusos</div>
-          <div class="ticket-detail">Mínimo 1 · máximo 5 por compra</div>
-        </div>
-        <div class="ticket-period">Vendas: 27/08/2026 até 30/09/2026</div>
-        <a href="https://www.sympla.com.br/evento/encontro-nacional-dos-produtores-de-calcario-agricola-enacal-2026/2847998" target="_blank" rel="noopener" class="ticket-cta">Garantir ingresso</a>
-        <div class="ticket-restrict">🔒 Exclusivo para associados com vínculo ativo</div>
-      </div>
-      <!-- Público Geral -->
-      <div class="ticket">
-        <span class="ticket-badge">1º Lote · Geral</span>
-        <div class="ticket-name">Público Geral</div>
-        <div class="ticket-price">R$330</div>
-        <div class="ticket-price-note">por participante</div>
-        <div class="ticket-details">
-          <div class="ticket-detail">60 ingressos disponíveis</div>
-          <div class="ticket-detail">Acesso completo aos 3 dias</div>
-          <div class="ticket-detail">Happy hour de abertura incluso</div>
-          <div class="ticket-detail">Todos os coffee breaks inclusos</div>
-          <div class="ticket-detail">Aberto ao público geral do setor</div>
-        </div>
-        <div class="ticket-period">Vendas: 27/08/2026 até 30/09/2026</div>
-        <a href="https://www.sympla.com.br/evento/encontro-nacional-dos-produtores-de-calcario-agricola-enacal-2026/2847998" target="_blank" rel="noopener" class="ticket-cta">Garantir ingresso</a>
+    <div class="tl-item">
+      <div class="tl-date">6 nov</div>
+      <div class="tl-body">
+        <div class="tl-title">3º disparo WPP — 5 dias pro evento <span class="tl-badge a">WhatsApp</span></div>
+        <div class="tl-desc">Último chamado. Maior rodada de disparos da operação.</div>
       </div>
     </div>
-  </div>
-</section>
-
-<!-- SPONSORS -->
-<section class="sponsors section" id="patrocinadores">
-  <div class="container">
-    <span class="eyebrow">Patrocinadores</span>
-    <div class="divider"></div>
-    <h2>Marcas do setor</h2>
-    <p class="sponsors-note">As marcas que estão construindo o futuro do setor — presentes do credenciamento ao palco principal, ao lado de quem decide.</p>
-    <div class="sp-group">
-      <span class="sp-label">Master</span>
-      <div class="sp-logos">
-        <div class="sp-slot master">Logo Patrocinador</div>
-        <div class="sp-slot master">Logo Patrocinador</div>
+    <div class="tl-item">
+      <div class="tl-date">11–13 nov</div>
+      <div class="tl-body">
+        <div class="tl-title">ENACAL 2026 <span class="tl-badge g">evento</span></div>
+        <div class="tl-desc">Royal Palm Tower, Indaiatuba SP. <strong style="color:var(--acc2)">201 Aprovados · R$ 32.760 receita.</strong></div>
       </div>
     </div>
-    <div class="sp-group">
-      <span class="sp-label">Apoio</span>
-      <div class="sp-logos">
-        <div class="sp-slot">Logo Apoio</div>
-        <div class="sp-slot">Logo Apoio</div>
-        <div class="sp-slot">Logo Apoio</div>
-        <div class="sp-slot">Logo Apoio</div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- CONTACT -->
-<div class="contact-band">
-  <div class="container">
-    <h2>Quer falar antes de decidir?</h2>
-    <p>Para dúvidas sobre ingressos, patrocínio ou programação, entre em contato direto com a equipe do ENACAL.</p>
-    <button class="btn btn-outline-white" onclick="alert('Em breve: entre em contato pelo WhatsApp. Número a ser divulgado.')">Falar com a equipe</button>
   </div>
 </div>
 
-<!-- FOOTER -->
-<footer>
-  <div class="footer-inner">
-    <div class="footer-logo">ENA<b>CAL</b> <span style="font-family:var(--font-body);font-size:.85rem;font-weight:400;color:rgba(255,255,255,.3)">2026</span></div>
-    <div class="footer-meta">
-      <div>11–13 de novembro de 2026 · Royal Palm Tower, Indaiatuba (SP)</div>
-      <div style="margin-top:.15rem">Uma realização ABRACAL</div>
+<!-- FLUXO BASE HISTÓRICA -->
+<div class="section">
+  <div class="sec-title">Fluxo de ativação — base histórica (221 contatos)</div>
+  <div class="timeline">
+    <div class="tl-item">
+      <div class="tl-date">15 set</div>
+      <div class="tl-body">
+        <div class="tl-title">E-mail 01 <span class="tl-badge b">e-mail</span></div>
+        <div class="tl-desc">Primeiro disparo para a base legada. Fila de envio para contatos ENACAL 2017 e ABRACAL.</div>
+      </div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-date">18 set</div>
+      <div class="tl-body">
+        <div class="tl-title">Disparo 01 WPP <span class="tl-badge a">WhatsApp</span></div>
+        <div class="tl-desc">Primeiro contato via WhatsApp com os contatos da base histórica com número ativo.</div>
+      </div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-date">22–28 set</div>
+      <div class="tl-body">
+        <div class="tl-title">E-mails 02 e 03 <span class="tl-badge b">e-mail</span></div>
+        <div class="tl-desc">Segunda e terceira rodada de e-mail para a base completa. Ampliação progressiva do alcance.</div>
+      </div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-date">30 set</div>
+      <div class="tl-body">
+        <div class="tl-title">Disparo 02 WPP <span class="tl-badge a">WhatsApp</span></div>
+        <div class="tl-desc">Tentativa de reativação ampla via WPP. Indica base com números desatualizados.</div>
+      </div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-date">06 out</div>
+      <div class="tl-body">
+        <div class="tl-title">E-mail 04 <span class="tl-badge b">e-mail</span></div>
+        <div class="tl-desc">Quarto e-mail para a base completa.</div>
+      </div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-date">20 out</div>
+      <div class="tl-body">
+        <div class="tl-title">Disparo 04 WPP <span class="tl-badge a">WhatsApp</span></div>
+        <div class="tl-desc">Segmentação da base histórica com contatos qualificados.</div>
+      </div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-date">04 nov</div>
+      <div class="tl-body">
+        <div class="tl-title">Disparo 05 WPP — último chamado <span class="tl-badge a">WhatsApp</span></div>
+        <div class="tl-desc">Disparo final para a base histórica, 7 dias antes do evento.</div>
+      </div>
     </div>
   </div>
-</footer>
+  <div class="note-box">
+    Dos 221 contatos históricos, apenas <strong>56 tinham WhatsApp ativo</strong> — principal limitação dos disparos WPP. Para o próximo evento, atualização da base com números de WPP é prioridade de pré-ativação.
+  </div>
+</div>
 
-<script>
-/* ─── HERO CANVAS ───────────────────────────────────── */
-(function(){
-  const cv = document.getElementById('hero-canvas');
-  const ctx = cv.getContext('2d');
-  let W, H, pts;
-  const NAVY = [36,77,110], VERDE = [90,105,79];
-  function lerp(a,b,t){return a+(b-a)*t}
-  function resize(){W=cv.width=cv.offsetWidth;H=cv.height=cv.offsetHeight;init()}
-  function init(){
-    pts=[];
-    const n=Math.floor((W*H)/14000);
-    for(let i=0;i<n;i++){
-      const col=Math.random()>.5?VERDE:NAVY;
-      pts.push({x:Math.random()*W,y:Math.random()*H,vx:(Math.random()-.5)*.3,vy:(Math.random()-.5)*.3,col,r:Math.random()*1.5+.8})
-    }
-  }
-  function draw(){
-    ctx.clearRect(0,0,W,H);
-    const D=130;
-    for(let i=0;i<pts.length;i++){
-      const p=pts[i];
-      p.x+=p.vx;p.y+=p.vy;
-      if(p.x<0||p.x>W)p.vx*=-1;
-      if(p.y<0||p.y>H)p.vy*=-1;
-      for(let j=i+1;j<pts.length;j++){
-        const q=pts[j];
-        const dx=p.x-q.x,dy=p.y-q.y,d=Math.sqrt(dx*dx+dy*dy);
-        if(d<D){
-          const a=(1-d/D)*.4;
-          const rc=lerp(p.col[0],q.col[0],.5);
-          const gc=lerp(p.col[1],q.col[1],.5);
-          const bc=lerp(p.col[2],q.col[2],.5);
-          ctx.strokeStyle=`rgba(${rc},${gc},${bc},${a})`;
-          ctx.lineWidth=.8;
-          ctx.beginPath();ctx.moveTo(p.x,p.y);ctx.lineTo(q.x,q.y);ctx.stroke();
-        }
-      }
-      ctx.beginPath();
-      ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
-      ctx.fillStyle=`rgba(${p.col[0]},${p.col[1]},${p.col[2]},.8)`;
-      ctx.fill();
-    }
-    requestAnimationFrame(draw);
-  }
-  window.addEventListener('resize',resize);
-  resize();draw();
-})();
+<!-- CRIATIVOS -->
+<div class="section">
+  <div class="sec-title">Criativos utilizados (Meta Ads)</div>
+  <div class="criativo-row">
+    <div class="ctag"><strong>ad01_4pilares</strong> — principal criativo, maior volume de leads</div>
+  </div>
+  <div class="criativo-row">
+    <div class="ctag"><strong>ad04_palestrante_fonseca</strong> — criativo com palestrante</div>
+  </div>
+  <div class="criativo-row">
+    <div class="ctag"><strong>rmkt_duvida_whatsapp</strong> — retargeting para quem interagiu</div>
+  </div>
+  <div style="margin-top:14px;border-radius:10px;overflow:hidden;border:1px solid var(--brd)">
+    <div style="background:var(--surf2);padding:10px 14px;font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);display:flex;align-items:center;justify-content:space-between">
+      <span>Biblioteca de Anúncios — Meta Ads</span>
+      <a id="meta-ads-link" href="#" target="_blank" rel="noopener" style="font-size:10px;color:var(--accent);font-weight:700;text-decoration:none">Ver no Meta ↗</a>
+    </div>
+    <div id="meta-embed-area" style="background:var(--surf);padding:32px 24px;text-align:center;color:var(--dim);font-size:12px">
+      <div style="font-size:28px;margin-bottom:8px">📎</div>
+      <div>Link da Meta Ads Library pendente</div>
+    </div>
+  </div>
+  <div class="note-box" style="margin-top:10px">
+    Campanha: <strong>enacal2026_lead</strong> · Mídia: paid_social (Meta/FB/IG) · Período: out–nov 2026.
+  </div>
+</div>
 
-/* ─── VENUE CANVAS ──────────────────────────────────── */
-(function(){
-  const cv = document.getElementById('venue-canvas');
-  if(!cv)return;
-  const ctx=cv.getContext('2d');
-  let W,H,nodes;
-  function resize(){W=cv.width=cv.offsetWidth;H=cv.height=cv.offsetHeight;init()}
-  function init(){
-    nodes=[];
-    const n=18;
-    for(let i=0;i<n;i++){
-      nodes.push({x:Math.random()*W,y:Math.random()*H,vx:(Math.random()-.5)*.2,vy:(Math.random()-.5)*.2})
-    }
-  }
-  function draw(){
-    ctx.clearRect(0,0,W,H);
-    const D=100;
-    for(let i=0;i<nodes.length;i++){
-      const p=nodes[i];
-      p.x+=p.vx;p.y+=p.vy;
-      if(p.x<0||p.x>W)p.vx*=-1;
-      if(p.y<0||p.y>H)p.vy*=-1;
-      for(let j=i+1;j<nodes.length;j++){
-        const q=nodes[j];
-        const dx=p.x-q.x,dy=p.y-q.y,d=Math.sqrt(dx*dx+dy*dy);
-        if(d<D){
-          ctx.strokeStyle=`rgba(90,105,79,${(1-d/D)*.5})`;
-          ctx.lineWidth=.8;
-          ctx.beginPath();ctx.moveTo(p.x,p.y);ctx.lineTo(q.x,q.y);ctx.stroke();
-        }
-      }
-      ctx.beginPath();ctx.arc(p.x,p.y,2,0,Math.PI*2);
-      ctx.fillStyle='rgba(90,105,79,.7)';ctx.fill();
-    }
-    requestAnimationFrame(draw);
-  }
-  window.addEventListener('resize',resize);
-  resize();draw();
-})();
+<!-- APRENDIZADOS -->
+<div class="section">
+  <div class="sec-title">Aprendizados</div>
+  <div class="learn-list">
+    <div class="learn-item">
+      <div class="learn-icon">⏱</div>
+      <div class="learn-text"><strong>Iniciar o tráfego com mais antecedência.</strong> Campanha iniciou em set/2026, próximo do evento. Uma janela de 60–90 dias amplia o volume de leads e permite otimização de criativos antes da reta final.</div>
+    </div>
+    <div class="learn-item">
+      <div class="learn-icon">📲</div>
+      <div class="learn-text"><strong>Atualizar a base de WPP antes do evento.</strong> Dos 221 contatos históricos, apenas 56 tinham WhatsApp ativo. Validar e enriquecer os números antes da ativação aumenta o alcance real da operação.</div>
+    </div>
+    <div class="learn-item">
+      <div class="learn-icon">📈</div>
+      <div class="learn-text"><strong>Base qualificada é ativo estratégico.</strong> Os 174 participantes de 2026 são leads quentes para 2027. Manter contato ativo (conteúdo, nutrição, WPP) entre edições reduz o custo de reativação no próximo ciclo.</div>
+    </div>
+  </div>
+</div>
 
-/* ─── ACCORDION ─────────────────────────────────────── */
-document.querySelectorAll('.acc-btn').forEach(btn=>{
-  btn.addEventListener('click',()=>{
-    const open=btn.getAttribute('aria-expanded')==='true';
-    document.querySelectorAll('.acc-btn').forEach(b=>{
-      b.setAttribute('aria-expanded','false');
-      document.getElementById(b.getAttribute('aria-controls')).style.maxHeight='0';
-    });
-    if(!open){
-      btn.setAttribute('aria-expanded','true');
-      const body=document.getElementById(btn.getAttribute('aria-controls'));
-      body.style.maxHeight=body.scrollHeight+'px';
-    }
-  });
-});
+<!-- RESUMO DE INDICADORES -->
+<div class="section">
+  <div class="sec-title">Crescimento conquistado</div>
+  <div class="tbl-wrap">
+    <table>
+      <thead><tr><th>O que crescemos</th><th>Antes</th><th>Depois</th></tr></thead>
+      <tbody>
+        <tr><td>Base total de contatos do setor</td><td style="color:var(--dim)">221</td><td style="color:var(--green);font-weight:700">438+ contatos</td></tr>
+        <tr><td>Base com WhatsApp ativo</td><td style="color:var(--dim)">56</td><td style="color:var(--green);font-weight:700">99+ contatos WPP</td></tr>
+        <tr><td>Leads rastreados e qualificados</td><td style="color:var(--dim)">0</td><td style="color:var(--green);font-weight:700">43 leads no CRM</td></tr>
+        <tr><td>Participantes qualificados no setor</td><td style="color:var(--dim)">base legada</td><td style="color:var(--green);font-weight:700">+174 decisores</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="kpi-grid" style="margin-top:12px">
+    <div class="kpi" style="background:color-mix(in srgb,var(--gbg) 60%,var(--surf));border-color:var(--gbrd)">
+      <div class="kpi-n green" style="font-size:28px">R$&nbsp;32.760</div>
+      <div class="kpi-l">Receita gerada no evento</div>
+      <div class="kpi-note">201 ingressos Sympla Aprovados</div>
+    </div>
+    <div class="kpi" style="background:color-mix(in srgb,var(--gbg) 60%,var(--surf));border-color:var(--gbrd)">
+      <div class="kpi-n green" style="font-size:28px">2×</div>
+      <div class="kpi-l">Crescimento da base vs. 2017</div>
+      <div class="kpi-note">Base 2027 é o maior ativo da operação</div>
+    </div>
+  </div>
+</div>
 
-/* ─── CAROUSEL ───────────────────────────────────────── */
-(function(){
-  const editions=[
-    {year:'ENACAL 2025',loc:'Goiânia · GO',col1:'#1a3850',col2:'#244d6e'},
-    {year:'ENACAL 2024',loc:'Cuiabá · MT',col1:'#5a694f',col2:'#3a5040'},
-    {year:'ENACAL 2023',loc:'Campo Grande · MS',col1:'#1a3850',col2:'#0e2030'},
-    {year:'ENACAL 2022',loc:'Patos de Minas · MG',col1:'#4a5840',col2:'#5a694f'},
-    {year:'ENACAL 2021',loc:'Edição digital',col1:'#1a2530',col2:'#244d6e'},
-    {year:'ENACAL 2019',loc:'Araxá · MG',col1:'#5a694f',col2:'#244d6e'},
-  ];
-  const track=document.getElementById('car-track');
-  const dotsEl=document.getElementById('car-dots');
-  let cur=0,dragging=false,startX=0,diffX=0;
-
-  editions.forEach((ed,i)=>{
-    const slide=document.createElement('div');
-    slide.className='carousel-slide';
-    const cv=document.createElement('canvas');
-    slide.appendChild(cv);
-    const cap=document.createElement('div');
-    cap.className='carousel-cap';
-    cap.innerHTML=`<div class="carousel-cap-year">${ed.year}</div><div class="carousel-cap-info">${ed.loc}</div>`;
-    slide.appendChild(cap);
-    track.appendChild(slide);
-
-    // draw slide art
-    const ctx2=cv.getContext('2d');
-    function drawSlide(){
-      const W=cv.width=cv.offsetWidth;
-      const H=cv.height=cv.offsetHeight;
-      const g=ctx2.createLinearGradient(0,0,W,H);
-      g.addColorStop(0,ed.col1);g.addColorStop(1,ed.col2);
-      ctx2.fillStyle=g;ctx2.fillRect(0,0,W,H);
-      // mountain silhouette
-      ctx2.fillStyle='rgba(0,0,0,.15)';
-      ctx2.beginPath();
-      ctx2.moveTo(0,H);ctx2.lineTo(W*.3,H*.25);ctx2.lineTo(W*.55,H*.5);ctx2.lineTo(W*.7,H*.15);ctx2.lineTo(W,H*.4);ctx2.lineTo(W,H);
-      ctx2.closePath();ctx2.fill();
-      // dots
-      for(let k=0;k<30;k++){
-        ctx2.beginPath();ctx2.arc(Math.random()*W,Math.random()*H,1,0,Math.PI*2);
-        ctx2.fillStyle='rgba(255,255,255,.15)';ctx2.fill();
-      }
-    }
-    requestAnimationFrame(drawSlide);
-    window.addEventListener('resize',drawSlide);
-
-    const dot=document.createElement('button');
-    dot.className='car-dot'+(i===0?' active':'');
-    dot.setAttribute('aria-label',ed.year);
-    dot.setAttribute('role','tab');
-    dot.addEventListener('click',()=>goTo(i));
-    dotsEl.appendChild(dot);
-  });
-
-  function goTo(n){
-    cur=Math.max(0,Math.min(editions.length-1,n));
-    track.style.transform=`translateX(-${cur*100}%)`;
-    document.querySelectorAll('.car-dot').forEach((d,i)=>d.classList.toggle('active',i===cur));
-  }
-
-  document.getElementById('car-prev').addEventListener('click',()=>goTo(cur-1));
-  document.getElementById('car-next').addEventListener('click',()=>goTo(cur+1));
-
-  // touch/swipe
-  const wrap=document.getElementById('carousel');
-  wrap.addEventListener('pointerdown',e=>{dragging=true;startX=e.clientX;wrap.setPointerCapture(e.pointerId)});
-  wrap.addEventListener('pointermove',e=>{if(!dragging)return;diffX=e.clientX-startX});
-  wrap.addEventListener('pointerup',()=>{
-    if(Math.abs(diffX)>50)goTo(diffX<0?cur+1:cur-1);
-    dragging=false;diffX=0;
-  });
-})();
-</script>
+</div>
+</body>
+</html>
